@@ -73,7 +73,7 @@ Follow these steps to set up your development environment and start contributing
 
 1. Clone the repository:
     ```bash
-    git clone https://github.com/your-org/computer-vision-platform.git
+    git clone [https://github.com/AILearningPlatform/computer-vision-platform.git](https://github.com/AILearningPlatform/Artificial-Intellegence-Learning-Platform.git)
     cd computer-vision-platform
     ```
 
@@ -82,34 +82,6 @@ Follow these steps to set up your development environment and start contributing
     pip install -r requirements.txt
     ```
 
-3. Install frontend dependencies:
-    ```bash
-    cd frontend
-    npm install
-    ```
-
-4. Set up the database:
-    - Make sure PostgreSQL is running locally or through Docker.
-    - Run database migrations (replace with your actual database credentials):
-      ```bash
-      cd backend
-      alembic upgrade head
-      ```
-
-5. Run the development server:
-    - Start the backend server:
-      ```bash
-      uvicorn backend.main:app --reload
-      ```
-    - Start the frontend server:
-      ```bash
-      cd frontend
-      npm start
-      ```
-
-6. Visit `http://localhost:3000` in your browser to see the platform in action.
-
----
 
 ## Contributing
 
