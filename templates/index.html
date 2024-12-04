@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Learn - Master Computer Vision</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Open+Sans:wght@300;400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/static/css/index.css">
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <h1 class="main-heading">Master Computer Vision with Hands-On Tutorials and Interactive Demos!</h1>
+            <p class="subheading">Learn. Experiment. Build. Dive into computer vision with real-world examples and projects.</p>
+            <div class="cta-buttons">
+                <button onclick="window.location.href='tutorials.html'">Get Started for Free</button>
+                <button onclick="window.location.href='demos.html'">Explore Demos</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="interactive-demo">
+        <h2>Try an Interactive Demo</h2>
+        <p>Upload an image to see real-time transformations.</p>
+        <input type="file" id="imageUpload" onchange="displayImage(this)" />
+        <div id="demoContainer">
+            <img id="demoImage" src="" alt="Your Image will appear here" />
+        </div>
+    </section>
+
+    <section class="key-features">
+        <h2>Why Choose Us?</h2>
+        <div class="feature">
+            <h3>Interactive Tutorials</h3>
+            <p>Build real-world computer vision projects from the ground up.</p>
+        </div>
+        <div class="feature">
+            <h3>Live Demos</h3>
+            <p>Experiment with image transformations and more.</p>
+        </div>
+        <div class="feature">
+            <h3>Content for All Levels</h3>
+            <p>Learn at your own pace from beginner to advanced.</p>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <p>&copy; 2024 CV Learn</p>
+            <p>Join the community of learners today!</p>
+        </div>
+    </footer>
+
+    <script src="/static/js/index.js"></script>
+</body>
+
+</html>

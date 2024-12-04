@@ -1,0 +1,12 @@
+fastapi[standard]
+opencv-python
+matplotlib
+pandas
+torch
+torchsummary
+torchvision
+torch_snippets
+tensorflow
+numpy
+scikit-learn
+scikit-image
