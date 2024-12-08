@@ -1,14 +1,110 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8"/>
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>React Application</title>
-    <link rel="stylesheet" href="/static/css/index.css">
-    <script defer="defer" src="/static/js/main.31d6cfe0.js"></script>
+    <title>AI Pathfinder | Learn AI Your Way</title>
+    <link rel="stylesheet" href="/static/css/index.css"> 
 </head>
 <body>
-    
-    <div id="root"></div> 
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <h1>EnduraMind</h1>
+            </div>
+            <ul class="nav-links">
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#courses">Courses</a></li>
+                <li><a href="#community">Community</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+            <div class="auth-buttons">
+                <a href="#login" class="login-btn">Log In</a>
+                <a href="#signup" class="signup-btn">Sign Up</a>
+            </div>
+        </nav>
+    </header>
+
+    <section id="home" class="hero">
+        <div class="hero-text">
+            <h2>Master AI. Your Way.</h2>
+            <p>Personalized learning paths, real-world projects, and tools to help you thrive in the world of Artificial Intelligence.</p>
+            <a href="#signup" class="cta-btn">Get Started for Free</a>
+            <a href="#learnmore" class="cta-btn secondary">Learn More</a>
+        </div>
+        <div class="hero-image">
+            <img src="/static/saved/logo.webp" alt="AI Illustration">
+        </div>
+    </section>
+
+    <section id="features" class="features">
+        <h2>Why Choose EnduraMind?</h2>
+        <div class="features-container">
+            <div class="feature-card">
+                <img src="/static/saved/personalized.gif" alt="Personalized Icon">
+                <h3>Personalized Learning Paths</h3>
+                <p>AI tailored to your skill level and goals.</p>
+            </div>
+            <div class="feature-card">
+                <img src="/static/saved/rotating-kipuak_orig.gif" alt="Projects Icon">
+                <h3>Hands-on Projects</h3>
+                <p>Learn by building. Tackle real-world AI problems.</p>
+            </div>
+            <div class="feature-card">
+                <img src="/static/saved/f.gif" alt="Focus Icon">
+                <h3>Focus Tools</h3>
+                <p>Stay productive with Pomodoro timers and focus modes.</p>
+            </div>
+            <div class="feature-card">
+                <img src="/static/saved/x.gif" alt="Progress Icon">
+                <h3>Progress Tracking</h3>
+                <p>Visualize your growth with milestones and detailed analytics.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="signup" class="signup">
+        <h2>Sign Up</h2>
+        <form method="POST">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <input type="password" name="password" placeholder="Enter your password" required>
+            <button type="submit" name="signup">Sign Up</button>
+        </form>
+    </section>
+
+    <section id="login" class="login">
+        <h2>Login</h2>
+        <form method="POST">
+            <input type="email" name="email" placeholder="Enter your email" required>
+            <input type="password" name="password" placeholder="Enter your password" required>
+            <button type="submit" name="login">Log In</button>
+        </form>
+    </section>
+
+    <footer>
+        <div class="footer-links">
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#courses">Courses</a></li>
+                <li><a href="#community">Community</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </div>
+        <div class="social-links">
+            <a href="https://linkedin.com" target="_blank">LinkedIn</a>
+            <a href="https://twitter.com" target="_blank">Twitter</a>
+            <a href="https://github.com" target="_blank">GitHub</a>
+            <a href="https://youtube.com" target="_blank">YouTube</a>
+        </div>
+        <div class="legal-links">
+            <a href="#privacy-policy">Privacy Policy</a> | <a href="#terms-of-service">Terms of Service</a>
+        </div>
+    </footer>
+
 </body>
 </html>
