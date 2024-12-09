@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="/static/css/Hands_on_Projects.css">
+    <title>Document</title>
+</head>
+<body>
+    <h1>Hands_on_Projects here</h1>
+    <p>Show some sample projects here!!</p>
+
+    <div class="Image_Classification">
+        <form action="/ImageClassification" method="post" enctype="multipart/form-data">
+            <input type="file" name="Image" id="Image" accept=".png, .jpg, .jpeg">
+            <button type="submit">Classify Image</button>
+        </form>
+
+        {% if content and image%}
+        <h2>File Name: {{ content }}</h2>
+        <img src="{{ image }}" alt="">
+        {% endif %}
+    </div>
+
+
+
+    <script src="/static/js/Hands_on_Projects.js"></script>
+</body>
+</html>
