@@ -1,6 +1,8 @@
 function handleCredentialResponse(response) {
     const responsePayload = decodeJwtResponse(response.credential);
     console.log("ID Token: ", responsePayload);
+
+    window.location.href = "/community"; 
 }
 
 function decodeJwtResponse(jwt) {
