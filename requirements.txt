@@ -1,4 +1,6 @@
-fastapi[standard]
+fastapi[all] 
+python-dotenv 
+google-auth
 opencv-python
 matplotlib
 pandas
