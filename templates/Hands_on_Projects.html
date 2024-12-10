@@ -41,9 +41,21 @@
 
 
     
-    <h1>Hands_on_Projects here</h1>
-    <p>Show some sample projects here!!</p>
+    <div class="engage">
+        <h1>Explore Thee world Of Artificial Intelligence</h1>
+        <p>Here is the list of examples of what you will learn in this platform</p>
+    </div>
 
+    <div class="Models">
+        <form id="searchForm" action="/choose_model" method="post">
+          <input type="text" id="searchInput" placeholder="Search...">
+          <button type="submit">Confirm</button>
+        </form>
+        <ul id="suggestions"></ul>
+    </div>
+      
+
+    <!--
     <div class="Image_Classification">
         <form action="/ImageClassification" method="post" enctype="multipart/form-data">
             <input type="file" name="Image" id="Image" accept=".png, .jpg, .jpeg">
@@ -55,6 +67,8 @@
         <img src="{{ image }}" alt="">
         {% endif %}
     </div>
+    -->
+    
 
 
 
