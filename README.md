@@ -50,7 +50,7 @@ The following technologies will be used in the project:
 - **Computer Vision**:  
   - **OpenCV** for image processing.
   - **PyTorch** for machine learning models and deep learning.
-  - **Flask** (optional) for deploying specific models as APIs.
+  - **FastAPI** (optional) for deploying specific models as APIs.
 
 - **Deployment**:  
   - **Docker** for containerization.
@@ -65,7 +65,7 @@ Follow these steps to set up your development environment and start contributing
 ### Prerequisites
 
 - **Python 3.11.9** (or compatible version)
-- **Node.js** (for frontend development)
+- **React.js** (for frontend development)
 - **Docker** (optional, for containerized environments)
 - **Git** (for version control)
 
