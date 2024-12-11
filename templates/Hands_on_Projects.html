@@ -38,27 +38,33 @@
 
     <div class="Models">
         <form id="searchForm" action="/choose_model" method="post">
-          <input type="text" id="searchInput" placeholder="Search...">
-          <button type="submit">Confirm</button>
+            <input type="text" id="searchInput" name="selected_model" placeholder="Search...">
+            <ul id="suggestions"></ul>
+            <button type="submit">Confirm</button>
         </form>
-        <ul id="suggestions"></ul>
+      
+        {% if selected_model %}
+          <h2>You selected: {{ selected_model }}</h2>
+          <form action="/upload_image" method="post" enctype="multipart/form-data">
+            <input type="hidden" name="selected_model" value="{{ selected_model }}">
+            <input type="file" name="file" accept="image/*">
+            <button type="submit">Upload Image</button>
+          </form>
+        {% endif %}
+        
+        {% if request.query_params.message2 %}
+            <p>{{ request.query_params.message2 }}</p>
+        {% endif %}
+
+        {% if message %}
+          <img src="{{ message }}" alt=""></p>
+        {% endif %}
+        
+        
     </div>
       
 
-    <!--
-    <div class="Image_Classification">
-        <form action="/ImageClassification" method="post" enctype="multipart/form-data">
-            <input type="file" name="Image" id="Image" accept=".png, .jpg, .jpeg">
-            <button type="submit">Classify Image</button>
-        </form>
 
-        {% if content and image%}
-        <h2>File Name: {{ content }}</h2>
-        <img src="{{ image }}" alt="">
-        {% endif %}
-    </div>
-    -->
-    
 
 
 

@@ -3,7 +3,7 @@ const suggestionsList = document.getElementById('suggestions');
 
 const suggestions = [
     'ResNet-50 (Image Classification)',
-    'YOLOv8 (Object Detection)',
+    'YOLOv11 (Object Detection)',
     'Mask R-CNN (Instance Segmentation)',
     'DeepLabV3+ (Semantic Segmentation)',
     'CycleGAN (Image-to-Image Translation)',
@@ -24,7 +24,7 @@ const suggestions = [
   ];
   
 
-const MAX_SUGGESTIONS = 10; // Limit number of suggestions displayed
+const MAX_SUGGESTIONS = 10;  
 
 searchInput.addEventListener('input', () => {
   const searchTerm = searchInput.value.toLowerCase();
@@ -33,16 +33,15 @@ searchInput.addEventListener('input', () => {
   if (searchTerm.length > 0) {
     const filteredSuggestions = suggestions
       .filter(suggestion => suggestion.toLowerCase().includes(searchTerm))
-      .slice(0, MAX_SUGGESTIONS); // Limit to MAX_SUGGESTIONS
+      .slice(0, MAX_SUGGESTIONS);  
 
     filteredSuggestions.forEach(suggestion => {
       const li = document.createElement('li');
       li.textContent = suggestion;
       li.style.cursor = 'pointer';
 
-      // Add click event to populate search input
       li.addEventListener('click', () => {
-        searchInput.value = suggestion; // Populate the input with the clicked suggestion
+        searchInput.value = suggestion;  
       });
 
       suggestionsList.appendChild(li);
@@ -53,15 +52,14 @@ searchInput.addEventListener('input', () => {
 searchInput.addEventListener('focus', () => {
   suggestionsList.innerHTML = '';
   suggestions
-    .slice(0, MAX_SUGGESTIONS) // Show only the first MAX_SUGGESTIONS on focus
+    .slice(0, MAX_SUGGESTIONS)  
     .forEach(suggestion => {
       const li = document.createElement('li');
       li.textContent = suggestion;
       li.style.cursor = 'pointer';
 
-      // Add click event to populate search input
       li.addEventListener('click', () => {
-        searchInput.value = suggestion; // Populate the input with the clicked suggestion
+        searchInput.value = suggestion;  
       });
 
       suggestionsList.appendChild(li);
@@ -69,5 +67,5 @@ searchInput.addEventListener('focus', () => {
 });
 
 searchInput.addEventListener('blur', () => {
-  setTimeout(() => suggestionsList.innerHTML = '', 200); // Delay to allow click event
+  setTimeout(() => suggestionsList.innerHTML = '', 200);  
 });

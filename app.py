@@ -35,10 +35,53 @@ async def features(request: Request):
 async def PersonalizedLearningPaths(request: Request):
     return templates.TemplateResponse("personalized_learning_paths.html", {"request": request})
 
-@app.get("/Hands_on_Projects", response_class=HTMLResponse)
-async def HandsonProjects(request: Request):
 
-    return templates.TemplateResponse("Hands_on_Projects.html", {"request": request})
+model = Models()
+
+
+@app.get("/Hands_on_Projects", response_class=HTMLResponse)
+async def handson_projects(request: Request, message: str = None, selected_model: str = None):
+    return templates.TemplateResponse(
+        "Hands_on_Projects.html",
+        {
+            "request": request,
+            "message": message,
+            "selected_model": selected_model,
+        },
+    )
+
+
+@app.post("/choose_model")
+async def choose_model(selected_model: str = Form(...)):
+    return RedirectResponse(
+        f"/Hands_on_Projects?selected_model={selected_model}", status_code=303
+    )
+
+
+@app.post("/upload_image")
+async def upload_image(selected_model: str = Form(...), file: UploadFile = File(...)):
+    if not file.filename:
+        return RedirectResponse(f"/Hands_on_Projects?message= Upload an Image first!", status_code=303)
+
+    file_path = f"./static/uploaded/{file.filename}"
+    with open(file_path, "wb") as f:
+        f.write(file.file.read())
+
+    if selected_model == "Mask R-CNN (Instance Segmentation)":
+        result = model.Mask_R_CNN_Instance_Segmentation(file_path)
+    elif selected_model == "ResNet-50 (Image Classification)":
+        result = model.ResNet_50_Image_Classification(file_path)
+    elif selected_model == "CycleGAN (Image-to-Image Translation)":
+        result = model.CycleGAN_Image_to_Image_Translation(file_path)
+    else:
+        result = "Please select a model"
+
+    return RedirectResponse(f"/Hands_on_Projects?message={result[1]}&message2={result[0]}", status_code=303)
+
+
+
+
+
 
 @app.get("/Focus_Tools", response_class=HTMLResponse)
 async def FocusTools(request: Request):
@@ -48,15 +91,3 @@ async def FocusTools(request: Request):
 async def ProgresTracking(request: Request):
     return templates.TemplateResponse("Progress_Tracking.html", {"request": request})
 
-#@app.post("/ImageClassification", response_class=HTMLResponse)
-#async def Image_Classification(request: Request, Image: UploadFile = File(...)):
-#    content = await Image.read()
-#    nparr = np.frombuffer(content, np.uint8)
-#    img = cv2.imdecode(nparr, cv2.IMREAD_COLOR)
-#    img_name = f"static/uploaded/{Image.filename}"
-#    cv2.imwrite(f"{img_name}", img)
-#    return templates.TemplateResponse(
-#        "Hands_on_Projects.html", {"request": request, "content": Image.filename, "image": img_name}
-#    )
-#
-#    
