@@ -32,7 +32,7 @@
 
     
     <div class="engage">
-        <h1>Explore Thee world Of Artificial Intelligence</h1>
+        <h1>Explore The world Of Artificial Intelligence</h1>
         <p>Here is the list of examples of what you will learn in this platform</p>
     </div>
 
@@ -50,6 +50,8 @@
             <input type="file" name="file" accept="image/*">
             <button type="submit">Upload Image</button>
           </form>
+        {% else %}
+        <h2>Please select a model</h2>
         {% endif %}
         
         {% if request.query_params.message2 %}

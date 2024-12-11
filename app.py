@@ -73,6 +73,9 @@ async def upload_image(selected_model: str = Form(...), file: UploadFile = File(
         result = model.ResNet_50_Image_Classification(file_path)
     elif selected_model == "CycleGAN (Image-to-Image Translation)":
         result = model.CycleGAN_Image_to_Image_Translation(file_path)
+    elif selected_model == "YOLOv11 (Object Detection)":
+        result = model.YOLOv11_Object_Detection(file_path)
+
     else:
         result = "Please select a model"
 
@@ -90,4 +93,3 @@ async def FocusTools(request: Request):
 @app.get("/Progress_Tracking", response_class=HTMLResponse)
 async def ProgresTracking(request: Request):
     return templates.TemplateResponse("Progress_Tracking.html", {"request": request})
-
