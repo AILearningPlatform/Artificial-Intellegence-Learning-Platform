@@ -64,7 +64,7 @@ Follow these steps to set up your development environment and start contributing
 
 ### Prerequisites
 
-- **Python 3.12** (or compatible version)
+- **Python 3.11.9** (or compatible version)
 - **Node.js** (for frontend development)
 - **Docker** (optional, for containerized environments)
 - **Git** (for version control)
