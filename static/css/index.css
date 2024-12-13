@@ -186,13 +186,13 @@ footer .legal-links a {
   }
 
   .feature-card {
-    width: 100%; /* Full width for smaller screens */
+    width: 100%;  
     max-width: 300px;
     margin: auto;
   }
 
   form input {
-    width: 80%; /* Adjust width for smaller screens */
+    width: 80%; 
   }
 }
 
