@@ -12,3 +12,4 @@ tensorflow
 numpy
 scikit-learn
 scikit-image
+ultralytics

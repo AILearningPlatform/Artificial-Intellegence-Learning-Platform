@@ -152,7 +152,6 @@ footer .legal-links a {
   margin-right: 10px;
 }
 
-/* Media Queries for Responsiveness */
 @media (max-width: 768px) {
   .nav-links {
     flex-direction: column;
