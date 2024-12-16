@@ -52,3 +52,6 @@ class Models:
         show(img, bbs=boxes.xyxy.cpu().numpy(), title=result)
 
         return [f"Image: {image_path[18:]} {result}", image_path]
+
+
+

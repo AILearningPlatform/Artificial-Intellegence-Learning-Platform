@@ -73,6 +73,10 @@ async def upload_image(selected_model: str = Form(...), file: UploadFile = File(
         result = model.CycleGAN_Image_to_Image_Translation(file_path)
     elif selected_model == "YOLOv11 (Object Detection)":
         result = model.YOLOv11_Object_Detection(file_path)
+    
+    elif selected_model == "Mask R-CNN (Instance Segmentation)":
+        pass
+    
     else:
         result = "Please select a model"
     return RedirectResponse(f"/Hands_on_Projects?message={result[1]}&message2={result[0]}", status_code=303)
