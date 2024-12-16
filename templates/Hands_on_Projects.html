@@ -46,7 +46,7 @@
           <h2>You selected: {{ selected_model }}</h2>
           <form action="/upload_image" method="post" enctype="multipart/form-data">
             <input type="hidden" name="selected_model" value="{{ selected_model }}">
-            <input type="file" name="file" accept="image/*">
+            <input type="file" name="file" accept="image/jpeg, image/png, image/jpg">
             <button type="submit">Upload Image</button>
           </form>
         {% else %}
