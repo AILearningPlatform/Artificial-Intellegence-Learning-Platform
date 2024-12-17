@@ -1,0 +1,2 @@
+c:/Users/Administrator/Documents/GitHub/Artificial-Intellegence-Learning-Platform/static/models_or_datasets/MaskRCNN_ResNet50_FPN.pth filter=lfs diff=lfs merge=lfs -text
+static/models_or_datasets/MaskRCNN_ResNet50_FPN.pth filter=lfs diff=lfs merge=lfs -text

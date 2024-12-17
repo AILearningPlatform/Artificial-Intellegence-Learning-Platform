@@ -13,3 +13,4 @@ numpy
 scikit-learn
 scikit-image
 ultralytics
+IPython
