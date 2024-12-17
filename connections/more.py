@@ -45,7 +45,7 @@ class Models:
             mask = mask[0].cpu().numpy()   
             mask = np.where(mask > 0.5, 1, 0)  
 
-            ax.imshow(mask, cmap='jet', alpha=0.4)
+            ax.imshow(mask, cmap='jet', alpha=0.6)
 
             xmin, ymin, xmax, ymax = box.cpu().numpy()
             rect = patches.Rectangle((xmin, ymin), xmax - xmin, ymax - ymin, linewidth=2, edgecolor='r', facecolor='none')

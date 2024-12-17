@@ -4,10 +4,46 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="/static/css/Community.css">
-    <title>Document</title>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .chat-container { max-width: 600px; margin: 0 auto; }
+        .message { margin: 10px; }
+        .user { text-align: right; color: blue; }
+        .bot { text-align: left; color: green; }
+    </style>
 </head>
 <body>
-    <h1>Community here</h1>
+    <div class="chat-container" id="chatbox">
+        <div class="bot message">Bot: Hello! Start chatting with me.</div>
+    </div>
+    <input type="text" id="userInput" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        const socket = new WebSocket("ws://localhost:8000/ws/chat");
+        const chatbox = document.getElementById("chatbox");
+
+        socket.onopen = () => {
+            console.log("WebSocket connection established.");
+        };
+
+        socket.onmessage = (event) => {
+            const botMessage = document.getElementById("botTyping");
+            if (botMessage) {
+                botMessage.innerHTML += event.data;
+            }
+        };
+
+        function sendMessage() {
+            const userInput = document.getElementById("userInput").value;
+
+            chatbox.innerHTML += `<div class="user message">You: ${userInput}</div>`;
+            chatbox.innerHTML += `<div class="bot message" id="botTyping">Bot: </div>`;
+
+            socket.send(userInput);
+            document.getElementById("userInput").value = "";
+        }
+    </script>
     <script src="/static/js/Community.js"></script>
 </body>
 </html>
