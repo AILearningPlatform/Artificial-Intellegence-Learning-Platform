@@ -6,15 +6,16 @@
     <link rel="stylesheet" href="/static/css/Community.css">
     <style>
         body { font-family: Arial, sans-serif; }
-        .chat-container { max-width: 600px; margin: 0 auto; }
+        .chat-container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; }
         .message { margin: 10px; }
         .user { text-align: right; color: blue; }
         .bot { text-align: left; color: green; }
+        .bot-typing { text-align: left; color: gray; font-style: italic; }
     </style>
 </head>
 <body>
     <div class="chat-container" id="chatbox">
-        <div class="bot message">Bot: Learn more!.</div>
+        <div class="bot message">Bot: Hello! Sin o gwapo?</div>
     </div>
     <input type="text" id="userInput" placeholder="Type a message..." />
     <button onclick="sendMessage()">Send</button>
@@ -28,22 +29,47 @@
         };
 
         socket.onmessage = (event) => {
-            const botMessage = document.getElementById("botTyping");
-            if (botMessage) {
-                botMessage.innerHTML += event.data;
+            const message = event.data;
+
+            if (message === "") {
+                return;
+            }
+
+            const botMessageContainer = document.createElement('div');
+            botMessageContainer.classList.add('bot', 'message');
+            botMessageContainer.innerHTML = "Bot: ";  
+            chatbox.appendChild(botMessageContainer);
+
+            for (let i = 0; i < message.length; i++) {
+                setTimeout(() => {
+                    botMessageContainer.innerHTML += message[i]; 
+                    chatbox.scrollTop = chatbox.scrollHeight;  
+                }, 50 * i); 
+            }
+
+            const typingIndicator = document.querySelector('.bot-typing');
+            if (typingIndicator) {
+                typingIndicator.remove();
             }
         };
 
         function sendMessage() {
             const userInput = document.getElementById("userInput").value;
 
-            chatbox.innerHTML += `<div class="user message">You: ${userInput}</div>`;
-            chatbox.innerHTML += `<div class="bot message" id="botTyping">Bot: </div>`;
+            const userMessageContainer = document.createElement('div');
+            userMessageContainer.classList.add('user', 'message');
+            userMessageContainer.innerHTML = "You: " + userInput;
+            chatbox.appendChild(userMessageContainer);
+
+            const botTypingContainer = document.createElement('div');
+            botTypingContainer.classList.add('bot', 'bot-typing');
+            botTypingContainer.innerHTML = "Bot: Typing...";
+            chatbox.appendChild(botTypingContainer);
 
             socket.send(userInput);
+
             document.getElementById("userInput").value = "";
         }
     </script>
-    <script src="/static/js/Community.js"></script>
 </body>
 </html>

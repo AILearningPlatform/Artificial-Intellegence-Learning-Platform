@@ -35,9 +35,9 @@ async def websocket_endpoint(websocket: WebSocket):
             response = requests.post(API_URL, headers=headers, json=data)
             if response.status_code == 200:
                 reply = response.json()['candidates'][0]['content']['parts'][0]['text']
-                for word in reply.split():
-                    await websocket.send_text(word + " ")
-                    await asyncio.sleep(0.05)
+                
+                await websocket.send_text(reply)
+
             else:
                 await websocket.send_text(f"Error: {response.status_code}")
     except Exception as e:
