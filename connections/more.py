@@ -119,3 +119,6 @@ class Models:
             result = "No predictions"
             return [f"Image: {image_path[18:]} {result}", image_path]
 
+    @staticmethod
+    def Faster_R_CNN_Object_Detectio(image_path):
+        return [f"Image: {image_path[18:]} Predicted: Gwapo", image_path]
