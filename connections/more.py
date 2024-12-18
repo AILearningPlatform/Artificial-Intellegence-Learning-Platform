@@ -121,4 +121,5 @@ class Models:
 
     @staticmethod
     def Faster_R_CNN_Object_Detectio(image_path):
+        
         return [f"Image: {image_path[18:]} Predicted: Gwapo", image_path]
