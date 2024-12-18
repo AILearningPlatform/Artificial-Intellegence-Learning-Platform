@@ -20,26 +20,26 @@ API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-f
 async def get_home(request: Request):
     return templates.TemplateResponse("Community.html", {"request": request})
 
+
 @app.websocket("/ws/chat")
 async def websocket_endpoint(websocket: WebSocket):
     await websocket.accept()
     print("WebSocket connection accepted!")
     try:
-        while True:
-            user_message = await websocket.receive_text()
-            print(f"Received: {user_message}")
+        async with httpx.AsyncClient() as client: 
+            while True:
+                user_message = await websocket.receive_text()
+                print(f"Received: {user_message}")
 
-            headers = {"Content-Type": "application/json"}
-            data = {"contents": [{"parts": [{"text": user_message}]}]}
+                headers = {"Content-Type": "application/json"}
+                data = {"contents": [{"parts": [{"text": user_message}]}]}
 
-            response = requests.post(API_URL, headers=headers, json=data)
-            if response.status_code == 200:
-                reply = response.json()['candidates'][0]['content']['parts'][0]['text']
-                
-                await websocket.send_text(reply)
-
-            else:
-                await websocket.send_text(f"Error: {response.status_code}")
+                response = await client.post(API_URL, headers=headers, json=data)  
+                if response.status_code == 200:
+                    reply = response.json()['candidates'][0]['content']['parts'][0]['text']
+                    await websocket.send_text(reply)
+                else:
+                    await websocket.send_text(f"Error: {response.status_code}")
     except Exception as e:
         print(f"WebSocket Error: {e}")
         await websocket.close()
