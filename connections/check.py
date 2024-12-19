@@ -8,6 +8,7 @@ import matplotlib.pyplot as plt
 import torch 
 from torchvision.models.detection import maskrcnn_resnet50_fpn, MaskRCNN_ResNet50_FPN_Weights  
 from torchvision.models import resnet50, ResNet50_Weights 
+from torchvision.transforms import functional as F
 from torchvision.transforms import transforms as T 
 from torch_snippets import read as read2 
 import torch.nn as nn 

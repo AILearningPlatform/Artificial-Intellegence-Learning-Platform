@@ -121,5 +121,31 @@ class Models:
 
     @staticmethod
     def Faster_R_CNN_Object_Detectio(image_path):
-        
-        return [f"Image: {image_path[18:]} Predicted: Gwapo", image_path]
+        new_loc = r"/home/zkllmt/Documents/AI Section/Artificial-Intellegence-Learning-Platform/static/saved/Faster R-CNN (Object Detection).png"
+        model = torch.load(r"/home/zkllmt/Documents/AI Section/Artificial-Intellegence-Learning-Platform/static/models_or_datasets/fasterrcnn_resnet50_fpn_v2.pth")
+        model.eval()
+        weights = MaskRCNN_ResNet50_FPN_Weights.DEFAULT
+        classes = weights.meta['categories']
+        img = cv2.imread(image_path)  
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB) 
+        img_pil = Image.fromarray(img)
+        img_tensor = F.to_tensor(img_pil).unsqueeze(0)  
+        with torch.no_grad():
+            prediction = model(img_tensor)
+        boxes, labels, scores = prediction[0]['boxes'], prediction[0]['labels'], prediction[0]['scores']
+        threshold = 0.5
+        high_confidence_indices = scores > threshold
+        boxes = boxes[high_confidence_indices]
+        labels = labels[high_confidence_indices]
+        scores = scores[high_confidence_indices]
+        print("Filtered boxes:", boxes)
+        print("Filtered labels:", [[classes[label] for label in labels] if len(labels) >= 1 else "No Predictions"])
+        print("Filtered scores:", scores)
+        for box in boxes:
+            x1, y1, x2, y2 = box.tolist() 
+            img = cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 3)
+        plt.figure(figsize=(10, 10))
+        plt.imshow(img)
+        plt.axis('off')
+        plt.savefig(new_loc, bbox_inches='tight', pad_inches=0)
+        return [f"Image: {image_path[18:]} Predicted: {str([classes[label] for label in labels] if len(labels) >= 1 else 'No Predictions')[1:-1]}", "/static/saved/Faster R-CNN (Object Detection).png"]
