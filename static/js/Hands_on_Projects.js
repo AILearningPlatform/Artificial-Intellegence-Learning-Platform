@@ -7,7 +7,7 @@ const suggestions = [
     'Mask R-CNN (Instance Segmentation)',
     'DeepLabV3+ (Semantic Segmentation)',
     'CycleGAN (Image-to-Image Translation)',
-    'GPT-4 (Natural Language Processing)',
+    'Gemini (Natural Language Processing)',
     'BERT (Language Understanding)',
     'MobileNetV2 (Lightweight Image Classification)',
     'Faster R-CNN (Object Detection)',
@@ -69,3 +69,4 @@ searchInput.addEventListener('focus', () => {
 searchInput.addEventListener('blur', () => {
   setTimeout(() => suggestionsList.innerHTML = '', 200);  
 });
+

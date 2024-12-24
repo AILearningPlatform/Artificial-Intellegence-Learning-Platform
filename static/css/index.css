@@ -28,6 +28,7 @@ a {
   flex-wrap: wrap; 
 }
 
+
 .navbar .logo h1 {
   font-size: 1.8rem;
   margin: 0;
@@ -82,6 +83,9 @@ a {
 .hero .hero-text {
   flex: 1 1 50%;
   margin-bottom: 20px;
+}
+header {
+  position: sticky;
 }
 
 .hero .hero-text h2 {

@@ -14,62 +14,6 @@
     </style>
 </head>
 <body>
-    <div class="chat-container" id="chatbox">
-        <div class="bot message">Bot: Sin o gwapo?</div>
-    </div>
-    <input type="text" id="userInput" placeholder="Type a message..." />
-    <button onclick="sendMessage()">Send</button>
-
-    <script>
-        const socket = new WebSocket("ws://localhost:8000/ws/chat");
-        const chatbox = document.getElementById("chatbox");
-
-        socket.onopen = () => {
-            console.log("WebSocket connection established.");
-        };
-
-        socket.onmessage = (event) => {
-            const message = event.data;
-
-            if (message === "") {
-                return;
-            }
-
-            const botMessageContainer = document.createElement('div');
-            botMessageContainer.classList.add('bot', 'message');
-            botMessageContainer.innerHTML = "Bot: ";  
-            chatbox.appendChild(botMessageContainer);
-
-            for (let i = 0; i < message.length; i++) {
-                setTimeout(() => {
-                    botMessageContainer.innerHTML += message[i]; 
-                    chatbox.scrollTop = chatbox.scrollHeight;  
-                }, 50 * i); 
-            }
-
-            const typingIndicator = document.querySelector('.bot-typing');
-            if (typingIndicator) {
-                typingIndicator.remove();
-            }
-        };
-
-        function sendMessage() {
-            const userInput = document.getElementById("userInput").value;
-
-            const userMessageContainer = document.createElement('div');
-            userMessageContainer.classList.add('user', 'message');
-            userMessageContainer.innerHTML = "You: " + userInput;
-            chatbox.appendChild(userMessageContainer);
-
-            const botTypingContainer = document.createElement('div');
-            botTypingContainer.classList.add('bot', 'bot-typing');
-            botTypingContainer.innerHTML = "Bot: Typing...";
-            chatbox.appendChild(botTypingContainer);
-
-            socket.send(userInput);
-
-            document.getElementById("userInput").value = "";
-        }
-    </script>
+    <h1>COmmunity here</h1>
 </body>
 </html>

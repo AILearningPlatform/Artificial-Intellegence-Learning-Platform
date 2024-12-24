@@ -1,6 +1,10 @@
 from connections.more import *
 
 
+GEMINI_API_KEY = "AIzaSyDHGZurLWlQlmBwypNz-hE8LEbCPgzhKnc"
+GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
+
+
 app = FastAPI()
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
@@ -19,9 +23,6 @@ async def features(request: Request):
 async def features(request: Request):
     return templates.TemplateResponse("Courses.html", {"request": request})
 
-@app.get("/community", response_class=HTMLResponse)
-async def features(request: Request):
-    return templates.TemplateResponse("Community.html", {"request": request})
 
 @app.get("/about", response_class=HTMLResponse)
 async def features(request: Request):
@@ -75,6 +76,9 @@ async def upload_image(selected_model: str = Form(...), file: UploadFile = File(
         result = model.YOLOv11_Object_Detection(file_path)
     elif selected_model == "Faster R-CNN (Object Detection)":
         result = model.Faster_R_CNN_Object_Detectio(file_path)
+
+    elif selected_model == "Gemini (Natural Language Processing)":
+        pass
     else:
         result = "Please select a model"
     return RedirectResponse(f"/Hands_on_Projects?message={result[1]}&message2={result[0]}", status_code=303)
@@ -88,3 +92,32 @@ async def FocusTools(request: Request):
 @app.get("/Progress_Tracking", response_class=HTMLResponse)
 async def ProgresTracking(request: Request):
     return templates.TemplateResponse("Progress_Tracking.html", {"request": request})
+
+
+@app.get("/community", response_class=HTMLResponse)
+async def get_home(request: Request):
+    return templates.TemplateResponse("Community.html", {"request": request})
+
+
+@app.websocket("/ws/chat")
+async def websocket_endpoint(websocket: WebSocket):
+    await websocket.accept()
+    print("WebSocket connection accepted!")
+    try:
+        async with httpx.AsyncClient() as client: 
+            while True:
+                user_message = await websocket.receive_text()
+                print(f"Received: {user_message}")
+
+                headers = {"Content-Type": "application/json"}
+                data = {"contents": [{"parts": [{"text": user_message}]}]}
+
+                response = await client.post(GEMINI_API_URL, headers=headers, json=data)  
+                if response.status_code == 200:
+                    reply = response.json()['candidates'][0]['content']['parts'][0]['text']
+                    await websocket.send_text(reply)
+                else:
+                    await websocket.send_text(f"Error: {response.status_code}")
+    except Exception as e:
+        print(f"WebSocket Error: {e}")
+        await websocket.close()

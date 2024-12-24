@@ -5,6 +5,8 @@ body {
     background-color: #f4f7fb;
 }
 
+
+
 h1, h2, h3 {
   color: #333;
 }
@@ -138,11 +140,6 @@ a {
 #suggestions li:hover {
   background-color: #f0f0f0;
 }
-
-
-
-
-
 
 @media (max-width: 768px) {
   .nav-links {

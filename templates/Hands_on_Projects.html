@@ -7,6 +7,14 @@
     <title>Document</title>
 </head>
 <body>
+    <style>
+        body { font-family: Arial, sans-serif; }
+        .chat-container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; }
+        .message { margin: 10px; }
+        .user { text-align: right; color: blue; }
+        .bot { text-align: left; color: green; }
+        .bot-typing { text-align: left; color: gray; font-style: italic; }
+    </style>
     <header>
         <nav class="navbar">
             <div class="logo">
@@ -26,10 +34,6 @@
         </nav>
     </header>
 
-
-
-
-    
     <div class="engage">
         <h1>Explore The world Of Artificial Intelligence</h1>
         <p>Here is the list of examples of what you will learn in this platform</p>
@@ -41,28 +45,89 @@
             <ul id="suggestions"></ul>
             <button type="submit">Confirm</button>
         </form>
-      
+    
         {% if selected_model %}
-          <h2>You selected: {{ selected_model }}</h2>
-          <form action="/upload_image" method="post" enctype="multipart/form-data">
-            <input type="hidden" name="selected_model" value="{{ selected_model }}">
-            <input type="file" name="file" accept="image/jpeg, image/png, image/jpg">
-            <button type="submit">Upload Image</button>
-          </form>
+            {% if selected_model == 'GPT-4 (Natural Language Processing)' %}
+                <h1>Chatbot here!</h1>
+                <div class="chat-container" id="chatbox">
+                    <div class="bot message">Bot: Sin o gwapo?</div>
+                </div>
+                <input type="text" id="userInput" placeholder="Type a message..." />
+                <button onclick="sendMessage()">Send</button>
+            
+                <script>
+                    const socket = new WebSocket("ws://localhost:8000/ws/chat");
+                    const chatbox = document.getElementById("chatbox");
+            
+                    socket.onopen = () => {
+                        console.log("WebSocket connection established.");
+                    };
+            
+                    socket.onmessage = (event) => {
+                        const message = event.data;
+            
+                        if (message === "") {
+                            return;
+                        }
+            
+                        const botMessageContainer = document.createElement('div');
+                        botMessageContainer.classList.add('bot', 'message');
+                        botMessageContainer.innerHTML = "Bot: ";  
+                        chatbox.appendChild(botMessageContainer);
+            
+                        for (let i = 0; i < message.length; i++) {
+                            setTimeout(() => {
+                                botMessageContainer.innerHTML += message[i]; 
+                                chatbox.scrollTop = chatbox.scrollHeight;  
+                            }, 50 * i); 
+                        }
+            
+                        const typingIndicator = document.querySelector('.bot-typing');
+                        if (typingIndicator) {
+                            typingIndicator.remove();
+                        }
+                    };
+            
+                    function sendMessage() {
+                        const userInput = document.getElementById("userInput").value;
+            
+                        const userMessageContainer = document.createElement('div');
+                        userMessageContainer.classList.add('user', 'message');
+                        userMessageContainer.innerHTML = "You: " + userInput;
+                        chatbox.appendChild(userMessageContainer);
+            
+                        const botTypingContainer = document.createElement('div');
+                        botTypingContainer.classList.add('bot', 'bot-typing');
+                        botTypingContainer.innerHTML = "Bot: Typing...";
+                        chatbox.appendChild(botTypingContainer);
+            
+                        socket.send(userInput);
+            
+                        document.getElementById("userInput").value = "";
+                    }
+                </script>
+            {% else %}
+                <h2>You selected: {{ selected_model }}</h2>
+                <form action="/upload_image" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="selected_model" value="{{ selected_model }}">
+                    <input type="file" name="file" accept="image/jpeg, image/png, image/jpg">
+                    <button type="submit">Upload Image</button>
+                </form>
+            {% endif %}
         {% else %}
-        <h2>Please select a model</h2>
+            <h2>Please select a model</h2>
         {% endif %}
-        
+    
         {% if request.query_params.message2 %}
             <p>{{ request.query_params.message2 }}</p>
         {% endif %}
-
+    
         {% if message %}
-          <img src="{{ message }}" alt=""></p>
+            <img src="{{ message }}" alt="Uploaded image">
         {% endif %}
-        
-        
     </div>
+    
+
       
 
 
