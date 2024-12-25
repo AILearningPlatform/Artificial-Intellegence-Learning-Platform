@@ -4,7 +4,8 @@ models = {
     "yolo11": YOLO("static/models_or_datasets/yolo11n.pt"),
     "yolov8": YOLO("static/models_or_datasets/yolov8n.pt"),
     "resnet50_ImaGE_Classification": resnet50(weights=None),
-    "Mask_R_CNN_Instance_Segmentation": maskrcnn_resnet50_fpn(weights = "DEFAULT")
+    "Mask_R_CNN_Instance_Segmentation": maskrcnn_resnet50_fpn(weights = "DEFAULT"),
+    "vgg16": torch.load("static/models_or_datasets/vgg16.pt")
 }
 
 class Models:
@@ -121,8 +122,8 @@ class Models:
 
     @staticmethod
     def Faster_R_CNN_Object_Detectio(image_path):
-        new_loc = r"/home/zkllmt/Documents/AI Section/Artificial-Intellegence-Learning-Platform/static/saved/Faster R-CNN (Object Detection).png"
-        model = torch.load(r"/home/zkllmt/Documents/AI Section/Artificial-Intellegence-Learning-Platform/static/models_or_datasets/fasterrcnn_resnet50_fpn_v2.pth")
+        new_loc = r"static/saved/Faster R-CNN (Object Detection).png"
+        model = torch.load(r"static/models_or_datasets/fasterrcnn_resnet50_fpn_v2.pth")
         model.eval()
         weights = MaskRCNN_ResNet50_FPN_Weights.DEFAULT
         classes = weights.meta['categories']
@@ -149,3 +150,38 @@ class Models:
         plt.axis('off')
         plt.savefig(new_loc, bbox_inches='tight', pad_inches=0)
         return [f"Image: {image_path[18:]} Predicted: {str([classes[label] for label in labels] if len(labels) >= 1 else 'No Predictions')[1:-1]}", "/static/saved/Faster R-CNN (Object Detection).png"]
+    
+    @staticmethod
+    def VGG_16_Image_Classification(image_path):
+        try:
+            model = models['vgg16']
+            weights = VGG16_Weights.DEFAULT
+            classes = weights.meta['categories']
+
+            for param in model.parameters():
+                param.requires_grad = False
+
+            model.eval()
+            trnsfrms = T.Compose([
+                T.Resize((224, 224)),  
+                T.ToTensor(),          
+                T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]) 
+            ])
+
+            img = Image.open(image_path).convert("RGB")  
+            input_tensor = trnsfrms(img).unsqueeze(0)  
+
+            with torch.no_grad(): 
+                output = model(input_tensor)
+                probabilities = Fn.softmax(output[0], dim=0)
+
+            z = torch.argmax(probabilities) 
+            p = probabilities[z].item() * 100
+            show(img, sz = 8, title= f"{classes[z]} {p:.4f}%")
+
+            result = f"{classes[z]} {p:.4f}%"
+            return [f"Image: {image_path[18:]} {result}", image_path]
+        
+        except ValueError:
+            result = "No predictions"
+            return [f"Image: {image_path[18:]} {result}", image_path]

@@ -76,9 +76,8 @@ async def upload_image(selected_model: str = Form(...), file: UploadFile = File(
         result = model.YOLOv11_Object_Detection(file_path)
     elif selected_model == "Faster R-CNN (Object Detection)":
         result = model.Faster_R_CNN_Object_Detectio(file_path)
-
-    elif selected_model == "Gemini (Natural Language Processing)":
-        pass
+    elif selected_model == "VGG-16 (Image Classification)":
+        result = model.VGG_16_Image_Classification(file_path)
     else:
         result = "Please select a model"
     return RedirectResponse(f"/Hands_on_Projects?message={result[1]}&message2={result[0]}", status_code=303)
