@@ -139,9 +139,6 @@ class Models:
         boxes = boxes[high_confidence_indices]
         labels = labels[high_confidence_indices]
         scores = scores[high_confidence_indices]
-        print("Filtered boxes:", boxes)
-        print("Filtered labels:", [[classes[label] for label in labels] if len(labels) >= 1 else "No Predictions"])
-        print("Filtered scores:", scores)
         for box in boxes:
             x1, y1, x2, y2 = box.tolist() 
             img = cv2.rectangle(img, (int(x1), int(y1)), (int(x2), int(y2)), (0, 255, 0), 3)
@@ -177,7 +174,7 @@ class Models:
 
             z = torch.argmax(probabilities) 
             p = probabilities[z].item() * 100
-            show(img, sz = 8, title= f"{classes[z]} {p:.4f}%")
+            #show(img, sz = 8, title= f"{classes[z]} {p:.4f}%")
 
             result = f"{classes[z]} {p:.4f}%"
             return [f"Image: {image_path[18:]} {result}", image_path]

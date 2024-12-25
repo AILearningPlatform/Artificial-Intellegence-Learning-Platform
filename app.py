@@ -4,12 +4,17 @@ from connections.more import *
 GEMINI_API_KEY = "AIzaSyDHGZurLWlQlmBwypNz-hE8LEbCPgzhKnc"
 GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
 
-
 app = FastAPI()
+
+model = Models()
+
+templates = Jinja2Templates(directory="templates")
 
 app.mount("/static", StaticFiles(directory="static"), name="static")
 
-templates = Jinja2Templates(directory="templates")
+@app.get("/favicon.ico", include_in_schema=False)
+async def favicon():
+    return FileResponse("static/favicon.ico")
 
 @app.get("/", response_class=HTMLResponse)
 async def home():
@@ -36,10 +41,6 @@ async def features(request: Request):
 async def PersonalizedLearningPaths(request: Request):
     return templates.TemplateResponse("personalized_learning_paths.html", {"request": request})
 
-
-model = Models()
-
-
 @app.get("/Hands_on_Projects", response_class=HTMLResponse)
 async def handson_projects(request: Request, message: str = None, selected_model: str = None):
     return templates.TemplateResponse(
@@ -50,7 +51,6 @@ async def handson_projects(request: Request, message: str = None, selected_model
             "selected_model": selected_model,
         },
     )
-
 
 @app.post("/choose_model")
 async def choose_model(selected_model: str = Form(...)):
@@ -82,8 +82,6 @@ async def upload_image(selected_model: str = Form(...), file: UploadFile = File(
         result = "Please select a model"
     return RedirectResponse(f"/Hands_on_Projects?message={result[1]}&message2={result[0]}", status_code=303)
 
-
-
 @app.get("/Focus_Tools", response_class=HTMLResponse)
 async def FocusTools(request: Request):
     return templates.TemplateResponse("Focus_Tools.html", {"request": request})
@@ -92,11 +90,9 @@ async def FocusTools(request: Request):
 async def ProgresTracking(request: Request):
     return templates.TemplateResponse("Progress_Tracking.html", {"request": request})
 
-
 @app.get("/community", response_class=HTMLResponse)
 async def get_home(request: Request):
     return templates.TemplateResponse("Community.html", {"request": request})
-
 
 @app.websocket("/ws/chat")
 async def websocket_endpoint(websocket: WebSocket):

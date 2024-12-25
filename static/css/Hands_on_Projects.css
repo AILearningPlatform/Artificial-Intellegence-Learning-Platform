@@ -5,6 +5,103 @@ body {
     background-color: #f4f7fb;
 }
 
+.chat-container {
+  width: 90%;
+  max-width: 600px;
+  height: 500px;
+  border: 1px solid #ddd;
+  padding: 15px;
+  background-color: #f9f9f9;
+  overflow-y: auto;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.message {
+  margin: 10px 0;
+  padding: 8px 12px;
+  border-radius: 12px;
+  line-height: 1.6;
+  max-width: 80%;
+}
+
+.bot.message {
+  background-color: #eef2f7;
+  color: #333;
+}
+
+.user.message {
+  background-color: #daf7a6;
+  color: #333;
+  text-align: right;
+  align-self: flex-end;
+}
+
+#userInput {
+  width: 90%;
+  padding: 10px;
+  border-radius: 20px;
+  border: 1px solid #ddd;
+  font-size: 16px;
+  margin-top: 15px;
+  margin-bottom: 10px;
+}
+
+button {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #45a049;
+}
+
+.code-block {
+  margin: 10px 0;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  background-color: #f9f9f9;
+}
+
+.code-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-weight: bold;
+}
+
+.code-lang {
+  color: #4CAF50;
+}
+
+.copy-btn {
+  padding: 5px;
+  background-color: #007BFF;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  cursor: pointer;
+}
+
+.copy-btn:hover {
+  background-color: #0056b3;
+}
+
+pre {
+  white-space: pre-wrap;
+  word-wrap: break-word;
+  margin-top: 10px;
+}
+
+code {
+  font-family: 'Courier New', Courier, monospace;
+}
 
 
 h1, h2, h3 {

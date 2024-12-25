@@ -7,14 +7,6 @@
     <title>Document</title>
 </head>
 <body>
-    <style>
-        body { font-family: Arial, sans-serif; }
-        .chat-container { max-width: 600px; margin: 0 auto; padding: 20px; border: 1px solid #ccc; }
-        .message { margin: 10px; }
-        .user { text-align: right; color: blue; }
-        .bot { text-align: left; color: green; }
-        .bot-typing { text-align: left; color: gray; font-style: italic; }
-    </style>
     <header>
         <nav class="navbar">
             <div class="logo">
@@ -48,64 +40,14 @@
     
         {% if selected_model %}
             {% if selected_model == 'Gemini (Natural Language Processing)' %}
-                <h1>Chatbot here!</h1>
-                <div class="chat-container" id="chatbox">
-                    <div class="bot message">Bot: Sin o gwapo?</div>
-                </div>
-                <input type="text" id="userInput" placeholder="Type a message..." />
-                <button onclick="sendMessage()">Send</button>
+            <h1>Chatbot here!</h1>
+            <div class="chat-container" id="chatbox">
+                <div class="bot message">Bot: Sin o **gwapo** *ka*?</div>
+            </div>
+            <input type="text" id="userInput" placeholder="Type a message..." />
+            <button onclick="sendMessage()">Send</button>
             
-                <script>
-                    const socket = new WebSocket("ws://localhost:8000/ws/chat");
-                    const chatbox = document.getElementById("chatbox");
             
-                    socket.onopen = () => {
-                        console.log("WebSocket connection established.");
-                    };
-            
-                    socket.onmessage = (event) => {
-                        const message = event.data;
-            
-                        if (message === "") {
-                            return;
-                        }
-            
-                        const botMessageContainer = document.createElement('div');
-                        botMessageContainer.classList.add('bot', 'message');
-                        botMessageContainer.innerHTML = "Bot: ";  
-                        chatbox.appendChild(botMessageContainer);
-            
-                        for (let i = 0; i < message.length; i++) {
-                            setTimeout(() => {
-                                botMessageContainer.innerHTML += message[i]; 
-                                chatbox.scrollTop = chatbox.scrollHeight;  
-                            }, 50 * i); 
-                        }
-            
-                        const typingIndicator = document.querySelector('.bot-typing');
-                        if (typingIndicator) {
-                            typingIndicator.remove();
-                        }
-                    };
-            
-                    function sendMessage() {
-                        const userInput = document.getElementById("userInput").value;
-            
-                        const userMessageContainer = document.createElement('div');
-                        userMessageContainer.classList.add('user', 'message');
-                        userMessageContainer.innerHTML = "You: " + userInput;
-                        chatbox.appendChild(userMessageContainer);
-            
-                        const botTypingContainer = document.createElement('div');
-                        botTypingContainer.classList.add('bot', 'bot-typing');
-                        botTypingContainer.innerHTML = "Bot: Typing...";
-                        chatbox.appendChild(botTypingContainer);
-            
-                        socket.send(userInput);
-            
-                        document.getElementById("userInput").value = "";
-                    }
-                </script>
             {% else %}
                 <h2>You selected: {{ selected_model }}</h2>
                 <form action="/upload_image" method="post" enctype="multipart/form-data">
