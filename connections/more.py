@@ -174,7 +174,7 @@ class Models:
 
             z = torch.argmax(probabilities) 
             p = probabilities[z].item() * 100
-            #show(img, sz = 8, title= f"{classes[z]} {p:.4f}%")
+            show(img, sz = 8, title= f"{classes[z]} {p:.4f}%")
 
             result = f"{classes[z]} {p:.4f}%"
             return [f"Image: {image_path[18:]} {result}", image_path]
