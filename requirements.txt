@@ -17,6 +17,7 @@ tqdm
 tensorboard
 fastapi[standard]
 flask
+ultralytics
 opencv-python
 nltk
 pycocotools
