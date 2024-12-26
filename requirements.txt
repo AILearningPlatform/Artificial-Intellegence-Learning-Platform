@@ -10,6 +10,7 @@ seaborn
 requests
 pillow
 scikit-image
+torch_snippets
 transformers
 huggingface-hub
 pyyaml
