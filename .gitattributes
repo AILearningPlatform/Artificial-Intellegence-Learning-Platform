@@ -1,3 +1,1 @@
-static/models_or_datasets/fasterrcnn_resnet50_fpn_v2.pth filter=lfs diff=lfs merge=lfs -text
-static/models_or_datasets/fasterrcnn_resnet50_fpn_v2.pth filter=lfs diff=lfs merge=lfs -text
-static/models_or_datasets/vgg16.pt filter=lfs diff=lfs merge=lfs -text
+
