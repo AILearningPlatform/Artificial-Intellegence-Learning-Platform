@@ -3,10 +3,10 @@ from connections.check import *
 models = {
     "yolo11": YOLO("static/models_or_datasets/yolo11n.pt"),
     "yolov8": YOLO("static/models_or_datasets/yolov8n.pt"),
-    "resnet50_ImaGE_Classification": torch.load("static/models_or_datasets/resnet_50.pt", weights_only=False),
-    "Mask_R_CNN_Instance_Segmentation": torch.load("static/models_or_datasets/MaskRCNN_ResNet50_FPN.pt", weights_only=False),
+    "resnet50_ImaGE_Classification": torch.load(r"C:\Users\Administrator\Documents\Artificial-Intellegence-Learning-Platform\static\models_or_datasets\resnet_50.pt", weights_only=False),
+    "Mask_R_CNN_Instance_Segmentation": torch.load(r"C:\Users\Administrator\Documents\Artificial-Intellegence-Learning-Platform\static\models_or_datasets\MaskRCNN_ResNet50_FPN.pt", weights_only=False),
     "vgg16": torch.load("static/models_or_datasets/vgg16.pt", weights_only=False),
-    "Faster R-CNN (Object Detection)" : torch.load("static/models_or_datasets/fasterrcnn_resnet50_fpn_v2.pt", weights_only=False)
+    "Faster R-CNN (Object Detection)" : torch.load(r"C:\Users\Administrator\Documents\Artificial-Intellegence-Learning-Platform\static\models_or_datasets\fasterrcnn_resnet50_fpn_v2.pt", weights_only=False)
 }
 
 class Models:
@@ -174,9 +174,9 @@ class Models:
 
             z = torch.argmax(probabilities) 
             p = probabilities[z].item() * 100
-            #show(img, sz = 8, title= f"{classes[z]} {p:.4f}%")
+            #show(img, sz = 8, title= f"{classes[z]} {p:.2}%")
 
-            result = f"{classes[z]} {p:.4f}%"
+            result = f"{classes[z]} {p:.2f}%"
             return [f"Image: {image_path[18:]} {result}", image_path]
         
         except ValueError:
