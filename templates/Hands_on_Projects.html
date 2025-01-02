@@ -47,7 +47,174 @@
             <input type="text" id="userInput" placeholder="Type a message..." />
             <button onclick="sendMessage()">Send</button>
 
+            <div class="description">
+                <div class="description-header">
+                    <h1>Gemini: Revolutionizing Natural Language Processing</h1>
+                    <p class="tagline">"Empowering machines to communicate, understand, and connect."</p>
+                </div>
+                <div class="description-content">
+                    <p>
+                        Gemini is a state-of-the-art natural language processing (NLP) model designed to bring your AI projects to life. Whether you're building intelligent chatbots, creating personalized virtual assistants, or analyzing text data, Gemini offers unparalleled capabilities. 
+                    </p>
+                    <ul class="features-list">
+                        <li><strong>Contextual Understanding:</strong> Gemini can comprehend the nuances of human language, including slang, emotions, and intent.</li>
+                        <li><strong>Conversational AI:</strong> Create chatbots that feel more human and understand complex conversations.</li>
+                        <li><strong>Multi-Language Support:</strong> Work with text in multiple languages, breaking down communication barriers.</li>
+                        <li><strong>Sentiment Analysis:</strong> Analyze customer feedback, reviews, and social media posts with ease.</li>
+                        <li><strong>Text Generation:</strong> Generate creative and contextually accurate responses, summaries, or even stories.</li>
+                    </ul>
+                    <p>
+                        Gemini is your gateway to transforming ideas into reality. Whether you're a developer, researcher, or entrepreneur, this model adapts to your unique requirements.
+                    </p>
+                </div>
+                <div class="description-cta">
+                    <a href="https://support.google.com/gemini/answer/13278668?hl=en"  class="cta-button">Learn More</a>
+                    <a href="https://gemini.google.com/app" class="cta-button secondary">Try Gemini Now</a>
+                </div>
+            </div>
             
+            
+            {% elif selected_model == 'ResNet-50 (Image Classification)' %}
+                <h2>You selected: {{ selected_model }}</h2>
+                <form action="/upload_image" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="selected_model" value="{{ selected_model }}">
+                    <input type="file" name="file" accept="image/jpeg, image/png, image/jpg">
+                    <button type="submit">Upload Image</button>
+                </form>
+            
+                <div class="description">
+                    <div class="description-header">
+                        <h1>ResNet-50: Redefining Image Classification</h1>
+                        <p class="tagline">"Deep Residual Learning for image recognition at scale."</p>
+                    </div>
+                    <div class="description-content">
+                        <p>
+                            ResNet-50 is a cutting-edge convolutional neural network (CNN) architecture built to achieve exceptional accuracy in image classification tasks. Its deep residual learning framework addresses the challenge of vanishing gradients, enabling the network to learn deeper and more complex features.
+                        </p>
+                        <ul class="features-list">
+                            <li><strong>High Accuracy:</strong> Leverages 50-layer residual blocks for precise feature extraction.</li>
+                            <li><strong>Transfer Learning:</strong> Easily fine-tune for custom datasets and specific classification tasks.</li>
+                            <li><strong>Scalability:</strong> Performs well across small to large-scale datasets.</li>
+                            <li><strong>Real-World Applications:</strong> Used in autonomous vehicles, healthcare, e-commerce, and more.</li>
+                            <li><strong>Performance:</strong> Optimized for efficient training and inference on GPUs.</li>
+                        </ul>
+                        <p>
+                            ResNet-50 has revolutionized the way deep learning tackles image recognition, making it the go-to model for professionals and researchers alike. Whether you're working with CIFAR-10 or the Stanford Cars dataset, ResNet-50 adapts seamlessly to meet your needs.
+                        </p>
+                    </div>
+                    <div class="description-cta">
+                        <a href="https://arxiv.org/abs/1512.03385" class="cta-button">Learn More</a>
+                        <a href="https://github.com/Sudhandar/ResNet-50-model" class="cta-button secondary">Try ResNet-50 Now</a>
+                    </div>
+                </div>
+
+            
+                {% elif selected_model == 'YOLOv11 (Object Detection)' %}
+                <h2>You selected: {{ selected_model }}</h2>
+                <form action="/upload_image" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="selected_model" value="{{ selected_model }}">
+                    <input type="file" name="file" accept="image/jpeg, image/png, image/jpg">
+                    <button type="submit">Upload Image</button>
+                </form>
+            
+                <div class="description">
+                    <div class="description-header">
+                        <h1>YOLOv11: The Next Generation of Object Detection</h1>
+                        <p class="tagline">"Real-time object detection with unmatched precision and speed."</p>
+                    </div>
+                    <div class="description-content">
+                        <p>
+                            YOLOv11 represents the latest advancements in object detection technology. Designed to be fast, efficient, and highly accurate, YOLOv11 continues the YOLO tradition of real-time performance while introducing innovative features for enhanced object detection capabilities.
+                        </p>
+                        <ul class="features-list">
+                            <li><strong>Real-Time Detection:</strong> Achieves lightning-fast inference speeds while maintaining high accuracy.</li>
+                            <li><strong>Enhanced Precision:</strong> Introduces new algorithms for better localization and classification.</li>
+                            <li><strong>Lightweight Design:</strong> Optimized for deployment on edge devices, making it ideal for IoT applications.</li>
+                            <li><strong>Multi-Scale Detection:</strong> Detects objects at various scales within a single frame.</li>
+                            <li><strong>Wide Applications:</strong> Used in surveillance, autonomous vehicles, medical imaging, and more.</li>
+                        </ul>
+                        <p>
+                            YOLOv11 is your ultimate tool for object detection tasks, offering unparalleled performance and flexibility. Whether you're working on real-time applications or complex datasets, YOLOv11 delivers results that exceed expectations.
+                        </p>
+                    </div>
+                    <div class="description-cta">
+                        <a href="https://docs.ultralytics.com/" class="cta-button">Learn More</a>
+                        <a href="https://github.com/ultralytics/ultralytics" class="cta-button secondary">Try YOLOv11 Now</a>
+                    </div>
+                </div>
+
+            
+            {% elif selected_model == 'Mask R-CNN (Instance Segmentation)' %}
+                <h2>You selected: {{ selected_model }}</h2>
+                <form action="/upload_image" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="selected_model" value="{{ selected_model }}">
+                    <input type="file" name="file" accept="image/jpeg, image/png, image/jpg">
+                    <button type="submit">Upload Image</button>
+                </form>
+            
+                <div class="description">
+                    <div class="description-header">
+                        <h1>Mask R-CNN: Advanced Instance Segmentation</h1>
+                        <p class="tagline">"Pixel-level object detection and segmentation with precision."</p>
+                    </div>
+                    <div class="description-content">
+                        <p>
+                            Mask R-CNN is a state-of-the-art model for instance segmentation, combining object detection and pixel-wise segmentation to identify and segment individual objects in an image. Its two-stage architecture builds on Faster R-CNN, adding a fully convolutional network for precise mask prediction.
+                        </p>
+                        <ul class="features-list">
+                            <li><strong>Instance Segmentation:</strong> Provides pixel-level masks for each detected object.</li>
+                            <li><strong>Two-Stage Architecture:</strong> Combines region proposal networks with segmentation head for high accuracy.</li>
+                            <li><strong>Scalable and Flexible:</strong> Performs well across various domains, including medical imaging, autonomous driving, and more.</li>
+                            <li><strong>Mask Prediction:</strong> Uses ROIAlign for precise mask generation at the pixel level.</li>
+                            <li><strong>Real-World Applications:</strong> Ideal for tasks requiring both object detection and segmentation.</li>
+                        </ul>
+                        <p>
+                            Mask R-CNN's ability to segment and detect objects at a granular level makes it a preferred choice for tasks requiring detailed scene understanding. From industrial automation to scientific research, it provides the tools to take image analysis to the next level.
+                        </p>
+                    </div>
+                    <div class="description-cta">
+                        <a href="https://arxiv.org/abs/1703.06870" class="cta-button">Learn More</a>
+                        <a href="https://github.com/matterport/Mask_RCNN" class="cta-button secondary">Try Mask R-CNN Now</a>
+                    </div>
+                </div>
+            
+
+            {% elif selected_model == 'Faster R-CNN (Object Detection)' %}
+                <h2>You selected: {{ selected_model }}</h2>
+                <form action="/upload_image" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="selected_model" value="{{ selected_model }}">
+                    <input type="file" name="file" accept="image/jpeg, image/png, image/jpg">
+                    <button type="submit">Upload Image</button>
+                </form>
+            
+                <div class="description">
+                    <div class="description-header">
+                        <h1>Faster R-CNN: High-Performance Object Detection</h1>
+                        <p class="tagline">"Fast and accurate object detection with region proposal networks."</p>
+                    </div>
+                    <div class="description-content">
+                        <p>
+                            Faster R-CNN is a cutting-edge model for object detection, known for its speed and accuracy. It integrates a Region Proposal Network (RPN) with a Fast R-CNN detector, enabling fast object proposals and precise object localization. This architecture allows Faster R-CNN to outperform other object detection models in terms of accuracy and processing speed.
+                        </p>
+                        <ul class="features-list">
+                            <li><strong>Fast and Accurate:</strong> Achieves high accuracy while maintaining rapid processing speeds.</li>
+                            <li><strong>Region Proposal Network (RPN):</strong> Automatically generates object proposals without the need for external algorithms.</li>
+                            <li><strong>End-to-End Training:</strong> Both RPN and detection networks are trained simultaneously.</li>
+                            <li><strong>Versatile:</strong> Suitable for a wide range of object detection applications, from security to retail.</li>
+                            <li><strong>Real-Time Performance:</strong> Optimized for real-time object detection with high-speed inference.</li>
+                        </ul>
+                        <p>
+                            Faster R-CNN's combination of speed and precision makes it ideal for a variety of practical applications, from autonomous vehicles to video surveillance. It provides the foundation for building powerful object detection systems that can process images in real time while identifying objects with high accuracy.
+                        </p>
+                    </div>
+                    <div class="description-cta">
+                        <a href="https://arxiv.org/abs/1506.01497" class="cta-button">Learn More</a>
+                        <a href="https://github.com/rbgirshick/py-faster-rcnn" class="cta-button secondary">Try Faster R-CNN Now</a>
+                    </div>
+                </div>
+            
+
+
             {% else %}
                 <h2>You selected: {{ selected_model }}</h2>
                 <form action="/upload_image" method="post" enctype="multipart/form-data">
@@ -58,6 +225,9 @@
             {% endif %}
         {% else %}
             <h2>Please select a model</h2>
+
+            
+
         {% endif %}
     
         {% if request.query_params.message2 %}
