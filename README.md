@@ -1,4 +1,4 @@
-# Computer Vision Learning Platform
+# Artificial Intellegence Learning Platform
 
 Welcome to the **Computer Vision Learning Platform** repository! This is a project aimed at building an interactive, tutorial-based website to help individuals learn computer vision concepts through hands-on examples and demos.
 
