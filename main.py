@@ -1,7 +1,7 @@
 from connections.more import *
 
 
-GEMINI_API_KEY = "AIzaSyDHGZurLWlQlmBwypNz-hE8LEbCPgzhKnc"
+GEMINI_API_KEY = "AIzaSyB1XEaD8Da6vqGeQZGZ5YbQzLUakDwlPoM"
 GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
 
 app = FastAPI()
@@ -117,7 +117,3 @@ async def websocket_endpoint(websocket: WebSocket):
         print(f"WebSocket Error: {e}")
         await websocket.close()
 
-
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
