@@ -30,6 +30,7 @@ transformers
 huggingface-hub
 pyyaml
 tqdm
+torchsummary
 tensorboard
 fastapi[standard]
 flask
@@ -42,7 +43,7 @@ pytest-cov
 pytest-asyncio
 uvicorn
 fastapi-cli
-uvloop
+#uvloop
 loguru
 py-cpuinfo
 google-auth
