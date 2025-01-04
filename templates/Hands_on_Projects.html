@@ -213,8 +213,75 @@
                     </div>
                 </div>
             
-
-
+            {% elif selected_model == 'VGG-16 (Image Classification)' %}
+                <h2>You selected: {{ selected_model }}</h2>
+                <form action="/upload_image" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="selected_model" value="{{ selected_model }}">
+                    <input type="file" name="file" accept="image/jpeg, image/png, image/jpg">
+                    <button type="submit">Upload Image</button>
+                </form>
+            
+                <div class="description">
+                    <div class="description-header">
+                        <h1>VGG-16: Deep Convolutional Neural Network for Image Classification</h1>
+                        <p class="tagline">"Powerful and deep architecture for precise image classification."</p>
+                    </div>
+                    <div class="description-content">
+                        <p>
+                            VGG-16 is a deep convolutional neural network (CNN) model, renowned for its simple yet effective architecture. It uses a series of convolutional layers with small receptive fields, followed by fully connected layers. This structure allows VGG-16 to achieve high accuracy in image classification tasks, especially with large datasets like ImageNet.
+                        </p>
+                        <ul class="features-list">
+                            <li><strong>Deep Architecture:</strong> Composed of 16 layers, allowing for powerful feature extraction and learning.</li>
+                            <li><strong>High Accuracy:</strong> Known for its high performance on large-scale image classification benchmarks.</li>
+                            <li><strong>Simple and Effective:</strong> Uses small 3x3 convolution filters and max-pooling layers.</li>
+                            <li><strong>Versatile:</strong> Can be fine-tuned for different image classification tasks.</li>
+                            <li><strong>Transfer Learning:</strong> VGG-16’s pretrained weights on large datasets are useful for transfer learning in other tasks.</li>
+                        </ul>
+                        <p>
+                            VGG-16 has proven to be a very effective model for image classification tasks, achieving high accuracy on large-scale datasets. Its straightforward architecture and deep layers make it a reliable choice for many computer vision applications.
+                        </p>
+                    </div>
+                    <div class="description-cta">
+                        <a href="https://arxiv.org/abs/1409.1556" class="cta-button">Learn More</a>
+                        <a href="https://github.com/keras-team/keras-applications/blob/master/keras_applications/vgg16.py" class="cta-button secondary">Try VGG-16 Now</a>
+                    </div>
+                </div>
+            
+            {% elif selected_model == 'MobileNetV2 (Lightweight Image Classification)' %}
+                <h2>You selected: {{ selected_model }}</h2>
+                <form action="/upload_image" method="post" enctype="multipart/form-data">
+                    <input type="hidden" name="selected_model" value="{{ selected_model }}">
+                    <input type="file" name="file" accept="image/jpeg, image/png, image/jpg">
+                    <button type="submit">Upload Image</button>
+                </form>
+            
+                <div class="description">
+                    <div class="description-header">
+                        <h1>MobileNetV2: Lightweight and Efficient Image Classification</h1>
+                        <p class="tagline">"Optimized for mobile devices with excellent accuracy."</p>
+                    </div>
+                    <div class="description-content">
+                        <p>
+                            MobileNetV2 is a lightweight and efficient convolutional neural network (CNN) designed specifically for mobile and edge devices. It utilizes an inverted residual structure, where depthwise separable convolutions are combined with linear bottleneck layers to reduce computational cost while maintaining high accuracy for image classification tasks. This model is particularly suited for environments with limited resources, making it ideal for real-time applications on mobile devices.
+                        </p>
+                        <ul class="features-list">
+                            <li><strong>Lightweight Architecture:</strong> Utilizes depthwise separable convolutions and linear bottleneck layers to reduce complexity.</li>
+                            <li><strong>Mobile Optimization:</strong> Designed specifically for mobile devices and edge computing, offering high efficiency with low computational cost.</li>
+                            <li><strong>High Accuracy:</strong> Despite its compact size, MobileNetV2 achieves competitive performance on standard image classification benchmarks.</li>
+                            <li><strong>Real-Time Performance:</strong> Capable of running in real time on resource-constrained devices.</li>
+                            <li><strong>Versatile:</strong> Suitable for various computer vision tasks, including object detection and segmentation, when fine-tuned.</li>
+                        </ul>
+                        <p>
+                            MobileNetV2’s efficient architecture makes it an excellent choice for applications that require fast processing on mobile devices or edge hardware. With its balance of speed and accuracy, it is ideal for a range of mobile applications such as augmented reality, autonomous driving, and wearable technology.
+                        </p>
+                    </div>
+                    <div class="description-cta">
+                        <a href="https://arxiv.org/abs/1801.04381" class="cta-button">Learn More</a>
+                        <a href="https://github.com/tensorflow/models/tree/master/research/slim" class="cta-button secondary">Try MobileNetV2 Now</a>
+                    </div>
+                </div>
+            
+            
             {% else %}
                 <h2>You selected: {{ selected_model }}</h2>
                 <form action="/upload_image" method="post" enctype="multipart/form-data">

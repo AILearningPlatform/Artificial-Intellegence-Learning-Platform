@@ -78,6 +78,8 @@ async def upload_image(selected_model: str = Form(...), file: UploadFile = File(
         result = model.Faster_R_CNN_Object_Detectio(file_path)
     elif selected_model == "VGG-16 (Image Classification)":
         result = model.VGG_16_Image_Classification(file_path)
+    elif selected_model == "MobileNetV2 (Lightweight Image Classification)":
+        result = model.MobileNetV2(file_path)
     else:
         result = "Please select a model"
     return RedirectResponse(f"/Hands_on_Projects?message={result[1]}&message2={result[0]}", status_code=303)

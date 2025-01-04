@@ -1,12 +1,13 @@
 from connections.check import *
 
 models = {
-    "yolo11": YOLO("static/models_or_datasets/yolo11n.pt"),
-    "yolov8": YOLO("static/models_or_datasets/yolov8n.pt"),
-    "resnet50_ImaGE_Classification": torch.load("static/models_or_datasets/resnet_50.pt", weights_only=False),
-    "Mask_R_CNN_Instance_Segmentation": torch.load("static/models_or_datasets/MaskRCNN_ResNet50_FPN.pt", weights_only=False),
-    "vgg16": torch.load("static/models_or_datasets/vgg16.pt", weights_only=False),
-    "Faster R-CNN (Object Detection)" : torch.load("static/models_or_datasets/fasterrcnn_resnet50_fpn_v2.pt", weights_only=False)
+    "yolo11": YOLO("connections/models_or_datasets/yolo11n.pt"),
+    "yolov8": YOLO("connections/models_or_datasets/yolov8n.pt"),
+    "resnet50_ImaGE_Classification": torch.load("connections/models_or_datasets/resnet_50.pt", weights_only=False),
+    "Mask_R_CNN_Instance_Segmentation": torch.load("connections/models_or_datasets/MaskRCNN_ResNet50_FPN.pt", weights_only=False),
+    "vgg16": torch.load("connections/models_or_datasets/vgg16.pt", weights_only=False),
+    "Faster R-CNN (Object Detection)" : torch.load("connections/models_or_datasets/fasterrcnn_resnet50_fpn_v2.pt", weights_only=False),
+    "MobileNetV2": torch.load("connections/models_or_datasets/mobilenet_v2.pt", weights_only=False)
 }
 
 class Models:
@@ -69,22 +70,22 @@ class Models:
     def ResNet_50_Image_Classification(image_path):
         model = models['resnet50_ImaGE_Classification']
         model.eval()
-
+        
         preprocess = ResNet50_Weights.DEFAULT.transforms()
         img = Image.open(image_path).convert("RGB")
         img_tensor = preprocess(img).unsqueeze(0)
-
+        
         with torch.no_grad():
             outputs = model(img_tensor)
-            probabilities = torch.softmax(outputs, dim=1)
-            top_prob, top_class = probabilities.topk(1, dim=1)
-
+        
+        _, top_class = outputs.max(1)
+        
         class_labels = ResNet50_Weights.DEFAULT.meta["categories"]
         predicted_label = class_labels[top_class.item()]
+        
+        show(img, title=f"{predicted_label} ({100 * outputs.max().item():.2f}%)", sz=5)
 
-        show(img, title=f"{predicted_label} ({top_prob.item() * 100:.2f}%)", sz = 5)
-
-        return [f"Image: {image_path[18:]} {predicted_label} ({top_prob.item() * 100:.2f}%)", image_path]
+        return [f"Image: {image_path[18:]} {predicted_label} ({100 * outputs.max().item():.2f}%)", image_path]
 
 
     @staticmethod
@@ -180,3 +181,45 @@ class Models:
         except ValueError:
             result = "No predictions"
             return [f"Image: {image_path[18:]} {result}", image_path]
+        
+
+    @staticmethod
+    def MobileNetV2(image_path):
+        class_idx_path = "connections/models_or_datasets/imagenet_class_index.json"
+        model = models['MobileNetV2']
+
+
+        preprocess = T.Compose([
+            T.Resize(256),               
+            T.CenterCrop(224),        
+            T.ToTensor(),                
+            T.Normalize(               
+                mean=[0.485, 0.456, 0.406],
+                std=[0.229, 0.224, 0.225]
+            ),
+        ])
+
+        with open(class_idx_path, "r") as f:
+            class_idx = json.load(f)
+
+        class_labels = [class_idx[str(i)][1] for i in range(1000)]
+
+
+        img = Image.open(image_path).convert("RGB") 
+        processed_img = preprocess(img)  
+
+        try:
+            model.eval()  
+            with torch.no_grad():
+                processed_img = processed_img.unsqueeze(0)   
+                output = model(processed_img)
+                probabilities = torch.nn.functional.softmax(output[0], dim=0)  
+                top_prob, top_idx = probabilities.topk(1)  
+                predicted_label = class_labels[top_idx.item()]  
+
+                print(f"Predicted Label: {predicted_label}")
+                print(f"Probability: {top_prob.item():.4f}")
+        except Exception as e:
+            print(f"Error running model inference: {e}")
+    
+        return [f"Image: {image_path[18:]} Prediction: {predicted_label} {100 * top_prob.item():.2f} %", image_path]
