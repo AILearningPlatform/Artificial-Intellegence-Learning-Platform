@@ -13,6 +13,7 @@ torchvision
 torch
 torch-snippets
 Pillow
+Ipython
 opencv-python
 numpy
 pandas
