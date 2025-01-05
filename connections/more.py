@@ -1,14 +1,42 @@
 from connections.check import *
 
+
+print("Downloading YOLO models...")
+yolo11_model = YOLO("yolo11n.pt")
+yolo11_model_path = os.path.join(MODEL_FOLDER, "yolo11n.pt")
+shutil.move("yolo11n.pt", yolo11_model_path)
+
+yolov8_model = YOLO("yolov8s.pt")
+yolov8_model_path = os.path.join(MODEL_FOLDER, "yolov8s.pt")
+shutil.move("yolov8s.pt", yolov8_model_path)
+
+print("Downloading ResNet50...")
+resnet50_model = resnet50(weights=ResNet50_Weights.IMAGENET1K_V2)
+save_full_model(resnet50_model, os.path.join(MODEL_FOLDER, "resnet50.pt"))
+
+print("Downloading VGG16...")
+vgg16_model = vgg16(weights=VGG16_Weights.IMAGENET1K_V1)
+save_full_model(vgg16_model, os.path.join(MODEL_FOLDER, "vgg16.pt"))
+
+print("Downloading MobileNetV2...")
+mobilenet_model = mobilenet_v2(weights="IMAGENET1K_V1")
+save_full_model(mobilenet_model, os.path.join(MODEL_FOLDER, "mobilenet_v2.pt"))
+
+print("Downloading Mask R-CNN...")
+mask_rcnn_model = maskrcnn_resnet50_fpn(weights=MaskRCNN_ResNet50_FPN_Weights.DEFAULT)
+save_full_model(mask_rcnn_model, os.path.join(MODEL_FOLDER, "mask_rcnn_resnet50_fpn.pt"))
+
+print("All models downloaded and moved successfully!")
+
 models = {
-    "yolo11": YOLO("connections/models_or_datasets/yolo11n.pt"),
-    "yolov8": YOLO("connections/models_or_datasets/yolov8n.pt"),
-    "resnet50_ImaGE_Classification": torch.load("connections/models_or_datasets/resnet_50.pt", weights_only=False),
-    "Mask_R_CNN_Instance_Segmentation": torch.load("connections/models_or_datasets/MaskRCNN_ResNet50_FPN.pt", weights_only=False),
-    "vgg16": torch.load("connections/models_or_datasets/vgg16.pt", weights_only=False),
-    "Faster R-CNN (Object Detection)" : torch.load("connections/models_or_datasets/fasterrcnn_resnet50_fpn_v2.pt", weights_only=False),
-    "MobileNetV2": torch.load("connections/models_or_datasets/mobilenet_v2.pt", weights_only=False)
+    "yolo11": YOLO(os.path.join(MODEL_FOLDER, "yolo11n.pt")),
+    "yolov8": YOLO(os.path.join(MODEL_FOLDER, "yolov8s.pt")),
+    "resnet50_image_classification": torch.load(os.path.join(MODEL_FOLDER, "resnet50.pt")),
+    "mask_rcnn_instance_segmentation": torch.load(os.path.join(MODEL_FOLDER, "mask_rcnn_resnet50_fpn.pt")),
+    "vgg16": torch.load(os.path.join(MODEL_FOLDER, "vgg16.pt")),
+    "mobilenet_v2": torch.load(os.path.join(MODEL_FOLDER, "mobilenet_v2.pt")),
 }
+
 
 class Models:
 
@@ -17,7 +45,7 @@ class Models:
         total_preds = []
         weights = MaskRCNN_ResNet50_FPN_Weights.DEFAULT
         classes = weights.meta['categories']
-        model = models['Mask_R_CNN_Instance_Segmentation']
+        model = models['mask_rcnn_instance_segmentation']
         model.eval()
         preprocess = T.Compose([T.ToTensor()])
         img = Image.open(image_path).convert("RGB")
@@ -68,7 +96,7 @@ class Models:
 
     @staticmethod
     def ResNet_50_Image_Classification(image_path):
-        model = models['resnet50_ImaGE_Classification']
+        model = models['resnet50_image_classification']
         model.eval()
         
         preprocess = ResNet50_Weights.DEFAULT.transforms()
@@ -146,47 +174,58 @@ class Models:
         plt.axis('off')
         plt.savefig(new_loc, bbox_inches='tight', pad_inches=0)
         return [f"Image: {image_path[18:]} Predicted: {str([classes[label] for label in labels] if len(labels) >= 1 else 'No Predictions')[1:-1]}", "/static/saved/Faster R-CNN (Object Detection).png"]
-    
+
+
     @staticmethod
     def VGG_16_Image_Classification(image_path):
         try:
+            # Load pre-trained VGG16 model and weights
             model = models['vgg16']
             weights = VGG16_Weights.DEFAULT
             classes = weights.meta['categories']
 
+            # Freeze model parameters
             for param in model.parameters():
                 param.requires_grad = False
-
             model.eval()
+
+            # Define the transformation pipeline
             trnsfrms = T.Compose([
-                T.Resize((224, 224)),  
-                T.ToTensor(),          
-                T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]) 
+                T.Resize((224, 224)),
+                T.ToTensor(),
+                T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
             ])
 
-            img = Image.open(image_path).convert("RGB")  
-            input_tensor = trnsfrms(img).unsqueeze(0)  
+            # Load and preprocess the image
+            img = Image.open(image_path).convert("RGB")
+            input_tensor = trnsfrms(img).unsqueeze(0)  # Add batch dimension
 
-            with torch.no_grad(): 
+            # Perform inference
+            with torch.no_grad():
                 output = model(input_tensor)
-                probabilities = Fn.softmax(output[0], dim=0)
+                logits = output[0]  # Extract logits
 
-            z = torch.argmax(probabilities) 
-            p = probabilities[z].item() * 100
-            #show(img, sz = 8, title= f"{classes[z]} {p:.2}%")
+            # Get the predicted class and logit value
+            z = torch.argmax(logits)  # Index of the highest logit
+            p = logits[z].item()  # Logit value of the predicted class
 
-            result = f"{classes[z]} {p:.2f}%"
-            return [f"Image: {image_path[18:]} {result}", image_path]
-        
-        except ValueError:
+            # Display the image with the predicted class
+            show(img, sz=8, title=f"{classes[z]} (logit: {p:.2f})")
+
+            # Return the predicted class index and label
+            predicted_label = classes[z]
+            return [f"Image: {image_path.split('/')[-1]} {predicted_label}", image_path]
+
+        except ValueError as e:
+            # Handle errors and return a meaningful response
             result = "No predictions"
-            return [f"Image: {image_path[18:]} {result}", image_path]
+            return [f"Image: {image_path.split('/')[-1]} {result}. Error: {str(e)}", image_path]
         
 
     @staticmethod
     def MobileNetV2(image_path):
         class_idx_path = "connections/models_or_datasets/imagenet_class_index.json"
-        model = models['MobileNetV2']
+        model = models['mobilenet_v2']
 
 
         preprocess = T.Compose([
@@ -223,3 +262,5 @@ class Models:
             print(f"Error running model inference: {e}")
     
         return [f"Image: {image_path[18:]} Prediction: {predicted_label} {100 * top_prob.item():.2f} %", image_path]
+
+
