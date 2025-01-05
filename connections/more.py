@@ -1,43 +1,16 @@
 from connections.check import *
 
-
-print("Downloading YOLO models...")
-yolo11_model = YOLO("yolo11n.pt")
-yolo11_model_path = os.path.join(MODEL_FOLDER, "yolo11n.pt")
-shutil.move("yolo11n.pt", yolo11_model_path)
-
-yolov8_model = YOLO("yolov8s.pt")
-yolov8_model_path = os.path.join(MODEL_FOLDER, "yolov8s.pt")
-shutil.move("yolov8s.pt", yolov8_model_path)
-
-print("Downloading ResNet50...")
-resnet50_model = resnet50(weights=ResNet50_Weights.IMAGENET1K_V2)
-save_full_model(resnet50_model, os.path.join(MODEL_FOLDER, "resnet50.pt"))
-
-print("Downloading VGG16...")
-vgg16_model = vgg16(weights=VGG16_Weights.IMAGENET1K_V1)
-save_full_model(vgg16_model, os.path.join(MODEL_FOLDER, "vgg16.pt"))
-
-print("Downloading MobileNetV2...")
-mobilenet_model = mobilenet_v2(weights="IMAGENET1K_V1")
-save_full_model(mobilenet_model, os.path.join(MODEL_FOLDER, "mobilenet_v2.pt"))
-
-print("Downloading Mask R-CNN...")
-mask_rcnn_model = maskrcnn_resnet50_fpn(weights=MaskRCNN_ResNet50_FPN_Weights.DEFAULT)
-save_full_model(mask_rcnn_model, os.path.join(MODEL_FOLDER, "mask_rcnn_resnet50_fpn.pt"))
-
-print("All models downloaded and moved successfully!")
-
 models = {
-    "yolo11": YOLO(os.path.join(MODEL_FOLDER, "yolo11n.pt")),
-    "yolov8": YOLO(os.path.join(MODEL_FOLDER, "yolov8s.pt")),
+    "yolo11": YOLO("connections/models_or_datasets/yolo11n.pt"),
+    "yolov8": YOLO("connections/models_or_datasets/yolov8s.pt"),
     "resnet50_image_classification": torch.load(os.path.join(MODEL_FOLDER, "resnet50.pt")),
     "mask_rcnn_instance_segmentation": torch.load(os.path.join(MODEL_FOLDER, "mask_rcnn_resnet50_fpn.pt")),
     "vgg16": torch.load(os.path.join(MODEL_FOLDER, "vgg16.pt")),
+    "faster_rcnn": None,
     "mobilenet_v2": torch.load(os.path.join(MODEL_FOLDER, "mobilenet_v2.pt")),
 }
 
-
+ 
 class Models:
 
     @staticmethod
@@ -111,9 +84,9 @@ class Models:
         class_labels = ResNet50_Weights.DEFAULT.meta["categories"]
         predicted_label = class_labels[top_class.item()]
         
-        show(img, title=f"{predicted_label} ({100 * outputs.max().item():.2f}%)", sz=5)
+        show(img, title=f"{predicted_label}", sz=5)
 
-        return [f"Image: {image_path[18:]} {predicted_label} ({100 * outputs.max().item():.2f}%)", image_path]
+        return [f"Image: {image_path[18:]} {predicted_label}", image_path]
 
 
     @staticmethod
@@ -150,7 +123,7 @@ class Models:
     @staticmethod
     def Faster_R_CNN_Object_Detectio(image_path):
         new_loc = r"static/saved/Faster R-CNN (Object Detection).png"
-        model = models['Faster R-CNN (Object Detection)']
+        model = models['faster_rcnn']
         model.eval()
         weights = MaskRCNN_ResNet50_FPN_Weights.DEFAULT
         classes = weights.meta['categories']
@@ -179,45 +152,36 @@ class Models:
     @staticmethod
     def VGG_16_Image_Classification(image_path):
         try:
-            # Load pre-trained VGG16 model and weights
             model = models['vgg16']
             weights = VGG16_Weights.DEFAULT
             classes = weights.meta['categories']
 
-            # Freeze model parameters
             for param in model.parameters():
                 param.requires_grad = False
             model.eval()
 
-            # Define the transformation pipeline
             trnsfrms = T.Compose([
                 T.Resize((224, 224)),
                 T.ToTensor(),
                 T.Normalize(mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225])
             ])
 
-            # Load and preprocess the image
             img = Image.open(image_path).convert("RGB")
-            input_tensor = trnsfrms(img).unsqueeze(0)  # Add batch dimension
+            input_tensor = trnsfrms(img).unsqueeze(0) 
 
-            # Perform inference
             with torch.no_grad():
                 output = model(input_tensor)
-                logits = output[0]  # Extract logits
+                logits = output[0]  
 
-            # Get the predicted class and logit value
-            z = torch.argmax(logits)  # Index of the highest logit
-            p = logits[z].item()  # Logit value of the predicted class
+            z = torch.argmax(logits)  
+            p = logits[z].item()  
 
-            # Display the image with the predicted class
             show(img, sz=8, title=f"{classes[z]} (logit: {p:.2f})")
 
-            # Return the predicted class index and label
             predicted_label = classes[z]
             return [f"Image: {image_path.split('/')[-1]} {predicted_label}", image_path]
 
         except ValueError as e:
-            # Handle errors and return a meaningful response
             result = "No predictions"
             return [f"Image: {image_path.split('/')[-1]} {result}. Error: {str(e)}", image_path]
         
