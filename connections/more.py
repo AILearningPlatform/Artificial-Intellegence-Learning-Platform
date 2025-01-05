@@ -6,7 +6,7 @@ models = {
     "resnet50_image_classification": torch.load(os.path.join(MODEL_FOLDER, "resnet50.pt")),
     "mask_rcnn_instance_segmentation": torch.load(os.path.join(MODEL_FOLDER, "mask_rcnn_resnet50_fpn.pt")),
     "vgg16": torch.load(os.path.join(MODEL_FOLDER, "vgg16.pt")),
-    "faster_rcnn": None,
+    "faster_rcnn": torch.load(os.path.join(MODEL_FOLDER, "faster_rcnn.pt")),
     "mobilenet_v2": torch.load(os.path.join(MODEL_FOLDER, "mobilenet_v2.pt")),
 }
 
@@ -84,7 +84,7 @@ class Models:
         class_labels = ResNet50_Weights.DEFAULT.meta["categories"]
         predicted_label = class_labels[top_class.item()]
         
-        show(img, title=f"{predicted_label}", sz=5)
+        #show(img, title=f"{predicted_label}", sz=5)
 
         return [f"Image: {image_path[18:]} {predicted_label}", image_path]
 
@@ -95,8 +95,8 @@ class Models:
 
     @staticmethod
     def YOLOv11_Object_Detection(image_path):
-        path = image_path
-        img = read(path)
+        saved_path = f"static/saved/YOLO11_obj.png"
+        img = read(image_path)
         try:
 
             pred = models['yolo11'](img)
@@ -114,11 +114,12 @@ class Models:
                 result = "No predictions."
 
             show(img, sz = 5, bbs=boxes.xyxy.cpu().numpy(), title=result)
-            return [f"Image: {image_path[18:]} {result}", image_path]
+            
+            return [f"Image: {image_path[18:]} prediction: {result}", image_path]
         
         except ValueError:
             result = "No predictions"
-            return [f"Image: {image_path[18:]} {result}", image_path]
+            return [f"Image: {image_path[18:]} prediction: {result}", image_path]
 
     @staticmethod
     def Faster_R_CNN_Object_Detectio(image_path):

@@ -1,7 +1,7 @@
 from connections.more import *
 
 
-GEMINI_API_KEY = "AIzaSyB1XEaD8Da6vqGeQZGZ5YbQzLUakDwlPoM"
+GEMINI_API_KEY = "AIzaSyCqGXK2zSp4V25wUWVgFhXx-NEeh_apP0M"
 GEMINI_API_URL = f"https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash-latest:generateContent?key={GEMINI_API_KEY}"
 
 app = FastAPI()

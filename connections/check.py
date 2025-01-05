@@ -34,6 +34,7 @@ from torchvision.models.detection import (
 from torchvision.models import (
     resnet50, ResNet50_Weights, VGG16_Weights, vgg16, mobilenet_v2
 )
+from torchvision.models.segmentation import deeplabv3_resnet101
 
 MODEL_FOLDER = "connections/models_or_datasets/"
 os.makedirs(MODEL_FOLDER, exist_ok=True)
@@ -84,9 +85,14 @@ mask_rcnn_model_path = os.path.join(MODEL_FOLDER, "mask_rcnn_resnet50_fpn.pt")
 mask_rcnn_model = maskrcnn_resnet50_fpn(weights=MaskRCNN_ResNet50_FPN_Weights.DEFAULT)
 save_full_model(mask_rcnn_model, mask_rcnn_model_path)
 
+print("Checking Faster R-CNN...")
 faster_rcnn_model_path = os.path.join(MODEL_FOLDER, "faster_rcnn.pt")
 faster_rcnn_model = maskrcnn_resnet50_fpn(weights="DEFAULT")
 save_full_model(faster_rcnn_model, faster_rcnn_model_path)
 
+print("Checking deeplabv3_resnet101...")
+deeplabv3_model_path = os.path.join(MODEL_FOLDER, "deeplabv3.pt")
+deeplabv3_model = deeplabv3_resnet101(weights="DEFAULT")
+save_full_model(deeplabv3_model, deeplabv3_model_path)
 
 print("All models are verified and ready!")
