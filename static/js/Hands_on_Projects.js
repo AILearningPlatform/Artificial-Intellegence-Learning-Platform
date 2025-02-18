@@ -20,7 +20,8 @@ const suggestions = [
     'StyleGAN3 (High-Resolution Image Generation)',
     'DALL·E 2 (Creative Image Synthesis)',
     'BigGAN (High-Quality Image Generation)',
-    'Vision Transformer (ViT - Transformer-based Image Classification)'
+    'Vision Transformer (ViT - Transformer-based Image Classification)',
+    "Deep_seekR1"
 ];
 
 const MAX_SUGGESTIONS = 10;  

@@ -2,6 +2,7 @@ from fastapi import FastAPI, Request, File, UploadFile, Form, WebSocket
 from fastapi.responses import HTMLResponse, RedirectResponse, FileResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
+from transformers import AutoModelForCausalLM
 from ultralytics import YOLO
 from starlette.requests import Request
 from matplotlib import patches

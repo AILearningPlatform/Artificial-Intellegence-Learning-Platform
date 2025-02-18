@@ -229,3 +229,8 @@ class Models:
         return [f"Image: {image_path[18:]} Prediction: {predicted_label} {100 * top_prob.item():.2f} %", image_path]
 
 
+    @staticmethod
+    def Deep_seekR1(prompt):
+        model = AutoModelForCausalLM.from_pretrained("deepseek-ai/DeepSeek-R1", trust_remote_code=True)
+        res = model(prompt)
+        return res 
