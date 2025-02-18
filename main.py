@@ -80,8 +80,6 @@ async def upload_image(selected_model: str = Form(...), file: UploadFile = File(
         result = model.VGG_16_Image_Classification(file_path)
     elif selected_model == "MobileNetV2 (Lightweight Image Classification)":
         result = model.MobileNetV2(file_path)
-    elif selected_model == "Deep_seekR1":
-        result = model.Deep_seekR1(file_path)
     else:
         result = "Please select a model"
     return RedirectResponse(f"/Hands_on_Projects?message={result[1]}&message2={result[0]}", status_code=303)
@@ -97,6 +95,23 @@ async def ProgresTracking(request: Request):
 @app.get("/community", response_class=HTMLResponse)
 async def get_home(request: Request):
     return templates.TemplateResponse("Community.html", {"request": request})
+
+
+@app.websocket("/ws/deepseekr1")
+async def websocket_endpoint2(websocket: WebSocket):
+    await websocket.accept()
+    print("WebSocket connection accepted!")
+    try:
+        while True:
+            user_message = await websocket.receive_text()
+            print(f"Received: {user_message}")
+
+            response = model.Deep_seekR1(user_message)
+            await websocket.send_text(response)
+    except Exception as e:
+        print(f"WebSocket Error: {e}")
+        await websocket.close()
+
 
 @app.websocket("/ws/chat")
 async def websocket_endpoint(websocket: WebSocket):
@@ -120,4 +135,5 @@ async def websocket_endpoint(websocket: WebSocket):
     except Exception as e:
         print(f"WebSocket Error: {e}")
         await websocket.close()
+
 

@@ -72,13 +72,17 @@
                     <a href="https://gemini.google.com/app" class="cta-button secondary">Try Gemini Now</a>
                 </div>
             </div>
+            
             {% elif selected_model == 'Deep_seekR1' %}
-            <h1>Deep_seekR1</h1>
-            <div class="chat-container" id="chatbox">
+            <h2>You selected: {{ selected_model }}</h2>
+            <h1>Chatbot here!</h1>
+            <div class="chat-container" id="chatbox2">
                 <div class="bot message">Bot: Sin o **gwapo**?</div>
             </div>
-            <input type="text" id="userInput" placeholder="Type a message..." />
-            <button onclick="sendMessage()">Send</button>
+            
+            <input type="text" id="userInput2" placeholder="Type a message..." />
+            <button onclick="sendMessage_deepseek()">Send</button>
+
             
             
             {% elif selected_model == 'ResNet-50 (Image Classification)' %}

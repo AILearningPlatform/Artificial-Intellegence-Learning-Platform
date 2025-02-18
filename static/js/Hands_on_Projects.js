@@ -6,6 +6,7 @@ const suggestions = [
     'YOLOv11 (Object Detection)',
     'Mask R-CNN (Instance Segmentation)',
     'DeepLabV3+ (Semantic Segmentation)',
+    "Deep_seekR1",
     'CycleGAN (Image-to-Image Translation)',
     'Gemini (Natural Language Processing)',
     'BERT (Language Understanding)',
@@ -21,7 +22,6 @@ const suggestions = [
     'DALL·E 2 (Creative Image Synthesis)',
     'BigGAN (High-Quality Image Generation)',
     'Vision Transformer (ViT - Transformer-based Image Classification)',
-    "Deep_seekR1"
 ];
 
 const MAX_SUGGESTIONS = 10;  
@@ -88,26 +88,30 @@ function transformText(text) {
 
     return text;
 }
-
+// Establish WebSocket connections
+const deepseekr1 = new WebSocket("ws://localhost:8000/ws/deepseekr1");
 const socket = new WebSocket("ws://localhost:8000/ws/chat");
+
+// Get chatboxes
 const chatbox = document.getElementById("chatbox");
+const chatbox2 = document.getElementById("chatbox2");
 
-socket.onopen = () => {
-    console.log("WebSocket connection established.");
-};
+// WebSocket event listeners
+deepseekr1.onopen = () => console.log("DeepSeek-R1 WebSocket connected.");
+socket.onopen = () => console.log("Chat WebSocket connected.");
 
+// Smooth typing effect for bot responses
 function smoothTypingEffect(container, message, speed = 50) {
     let i = 0;
     const interval = setInterval(() => {
         container.innerHTML = "Bot: " + message.substring(0, i + 1);
         i++;
-        if (i >= message.length) {
-            clearInterval(interval); 
-        }
+        if (i >= message.length) clearInterval(interval);
     }, speed);
 }
 
-function showTypingIndicator() {
+// Show typing indicator
+function showTypingIndicator(chatbox) {
     const typingContainer = document.createElement('div');
     typingContainer.classList.add('bot', 'message', 'bot-typing');
     typingContainer.innerHTML = "Bot: Typing...";
@@ -116,58 +120,82 @@ function showTypingIndicator() {
     return typingContainer;
 }
 
+// Remove typing indicator
 function removeTypingIndicator(typingContainer) {
-    typingContainer.remove();
+    if (typingContainer) typingContainer.remove();
 }
 
+// Send user message (for Gemini)
 function sendMessage() {
     const userInput = document.getElementById("userInput");
     const text = userInput.value.trim();
 
     if (text !== '') {
-        const userMessageContainer = document.createElement('div');
-        userMessageContainer.classList.add('user', 'message');
-        userMessageContainer.innerHTML = "You: " + transformText(text);
-        chatbox.appendChild(userMessageContainer);
-
-        const typingIndicator = showTypingIndicator();
+        addUserMessage(chatbox, text);
+        const typingIndicator = showTypingIndicator(chatbox);
 
         socket.send(text);
-        userInput.value = ""; 
-        chatbox.scrollTop = chatbox.scrollHeight; 
+        userInput.value = "";
+        chatbox.scrollTop = chatbox.scrollHeight;
     }
 }
 
-socket.onmessage = (event) => {
-    const message = event.data;
-    if (message === "") {
-        return;
+// Send user message (for DeepSeek-R1)
+function sendMessage_deepseek() {
+    const userInput2 = document.getElementById("userInput2");
+    const text2 = userInput2.value.trim();
+
+    if (text2 !== '') {
+        addUserMessage(chatbox2, text2);
+        const typingIndicator = showTypingIndicator(chatbox2);
+
+        deepseekr1.send(text2);
+        userInput2.value = "";
+        chatbox2.scrollTop = chatbox2.scrollHeight;
     }
+}
+
+// Function to add user messages to chatbox
+function addUserMessage(chatbox, text) {
+    const userMessageContainer = document.createElement('div');
+    userMessageContainer.classList.add('user', 'message');
+    userMessageContainer.innerHTML = "You: " + transformText(text);
+    chatbox.appendChild(userMessageContainer);
+}
+
+// WebSocket message handling
+deepseekr1.onmessage = (event) => handleBotResponse(event, chatbox2);
+socket.onmessage = (event) => handleBotResponse(event, chatbox);
+
+// Handle bot responses
+function handleBotResponse(event, chatbox) {
+    const message = event.data.trim();
+    if (!message) return;
+
     const botMessageContainer = document.createElement('div');
     botMessageContainer.classList.add('bot', 'message');
-    
-    const transformedMessage = transformText(message);
-    
-    smoothTypingEffect(botMessageContainer, transformedMessage);
-    
+    smoothTypingEffect(botMessageContainer, transformText(message));
+
     chatbox.appendChild(botMessageContainer);
-    chatbox.scrollTop = chatbox.scrollHeight; 
+    chatbox.scrollTop = chatbox.scrollHeight;
 
     const typingIndicator = document.querySelector('.bot-typing');
-    if (typingIndicator) {
-        typingIndicator.remove();
-    }
-};
+    removeTypingIndicator(typingIndicator);
+}
 
-document.getElementById("userInput").addEventListener("keypress", function(event) {
-    if (event.key === "Enter") {
-        sendMessage();
-    }
+// Handle Enter key events for sending messages
+document.getElementById("userInput").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") sendMessage();
 });
 
-window.onload = function() {
+document.getElementById("userInput2").addEventListener("keypress", function (event) {
+    if (event.key === "Enter") sendMessageDeepSeek();
+});
+
+// Transform chat history on page load
+window.onload = function () {
     const messages = document.getElementsByClassName('message');
-    for(let msg of messages) {
+    for (let msg of messages) {
         msg.innerHTML = transformText(msg.innerHTML);
     }
 };
